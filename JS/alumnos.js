@@ -85,7 +85,7 @@ function obtener(alumnos) {
     /* console.log(alumnos[1].name); */
     /*  for(const alumno of alumnos.slice(0, 5)) {
         console.log(alumno.name, alumno.email, alumno.phone, alumno.id);
-    } */
+    } 
 /* }
 
 async function iniciar() {
@@ -146,3 +146,36 @@ async function iniciarComentarios() {
 }   
 
 iniciarComentarios(); */
+
+async function obtenerAlumnos() {
+    const respuesta = await fetch("https://jsonplaceholder.typicode.com/users");
+
+    const alumnos = await respuesta.json();
+
+    return alumnos;
+}
+
+async function Obteneralumnitos() {
+    // Consumimos la API
+    const alumnos = await obtenerAlumnos();
+
+    console.log("Datos obtenidos de la API:");
+    console.table(alumnos);
+
+    // Guardamos los datos en localStorage
+    localStorage.setItem("alumnos", JSON.stringify(alumnos));
+
+    // Recuperamos los datos
+    const datos = localStorage.getItem("alumnos");
+
+    // Convertimos el JSON nuevamente a objeto/array
+    const alumnosRecuperados = JSON.parse(datos);
+
+    console.log("Datos recuperados de localStorage:");
+    console.log(alumnosRecuperados);
+    console.log(typeof alumnosRecuperados);
+
+    console.table(alumnosRecuperados);
+}
+
+Obteneralumnitos();
