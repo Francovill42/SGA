@@ -1,181 +1,197 @@
-/* const alumnos = [
-    {id: 1, nombre: "Ana", edad: 20 },
-    {id: 2, nombre: "Juan", edad: 22 },
-    {id: 3, nombre: "Pedro", edad: 21 }
-];
+const formulario = document.querySelector("#forAlumno");
+const mensaje = document.querySelector("#mensaje");
+const listaAlumnos = document.querySelector("#listaAlumnos");
+const alumnosCantidad = document.querySelector("#alumnosCantidad");
 
-function obtenerAlumno() {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            console.log("Obteniendo alumnos...");
-            resolve(alumnos);
-        }, 2000);
-    });
-}
-
-async function iniciar() {
-    const alumnos = await obtenerAlumno();
-    console.table(alumnos);
-}
-iniciar(); */
-/* 
-
-const materias = [
-    {id: 1, nombre: "Matemáticas", profesor: "Dr. Smith" },
-    {id: 2, nombre: "Historia", profesor: "Prof. Johnson" },
-    {id: 3, nombre: "Ciencias", profesor: "Dr. Brown" }
-];
-
-function obtenerMaterias() {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            console.log("Obteniendo materias...");
-            resolve(materias);
-        }, 2000);
-    });
-}
+// Variable para saber si estamos editando
+let alumnoEditandoId = null;
 
 
-async function materiasObtenidas() {
-    const materias = await obtenerMaterias();
-    console.table(materias);
-}
-materiasObtenidas();
+// GUARDAR / EDITAR ALUMNO
+formulario.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-const Docentes = [
-    {id: 1, nombre: "Dr. Smith", materia: "Matemáticas" },
-    {id: 2, nombre: "Prof. Johnson", materia: "Historia" },
-    {id: 3, nombre: "Dr. Brown", materia: "Ciencias" }
-];
+    const nombre = document.getElementById("nombre").value;
+    const carrera = document.getElementById("carrera").value;
+    const correo = document.getElementById("correo").value;
 
-function Docentesescolares(){
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            console.log("Obteniendo docentes de la escuela...");
-            resolve(Docentes);
-        }, 2000);
-    });
-}
+    const alumnitos = obtenerAlumnos();
 
+    // SI ESTAMOS EDITANDO
+    if (alumnoEditandoId !== null) {
 
-async function docentesObtenidos() {
-    const docentes = await Docentesescolares();
-    console.table(docentes);
-}
-docentesObtenidos();
- */
+        const alumno = alumnitos.find(
+            alumno => alumno.id === alumnoEditandoId
+        );
 
-/* 
-fetch("https://jsonplaceholder.typicode.com/users").then((response)=>{
-    return response.json();
-}).then((data)=>{
-    console.log(data);
-}).catch((error)=>{
-    console.log("Error al obtener los datos: ", error);
-}); */
+        if (alumno) {
+            alumno.nombre = nombre;
+            alumno.carrera = carrera;
+            alumno.correo = correo;
+        }
 
-/* async function obtenerAlumnos() {
-    const respuesta = await fetch("https://jsonplaceholder.typicode.com/users");
-    const alumnos = await respuesta.json();
-    return alumnos
-}
+        localStorage.setItem(
+            "alumnos",
+            JSON.stringify(alumnitos)
+        );
 
-function obtener(alumnos) {
-    console.table(alumnos);
-    /* console.log(alumnos[1].name); */
-    /*  for(const alumno of alumnos.slice(0, 5)) {
-        console.log(alumno.name, alumno.email, alumno.phone, alumno.id);
-    } 
-/* }
+        mostrarMensaje("Alumno actualizado correctamente");
 
-async function iniciar() {
-    const alumnos = await obtenerAlumnos();
-    obtener(alumnos);
-}
-iniciar(); */ 
+        mostrarAlumnos(alumnitos);
+
+        formulario.reset();
+
+        alumnoEditandoId = null;
+
+        return;
+    }
 
 
-//traer posts
-//traer comentarios
-//id, title, body
+    // SI ESTAMOS AGREGANDO UN ALUMNO NUEVO
+    const alumno = {
+        id: Date.now(),
+        nombre: nombre,
+        carrera: carrera,
+        correo: correo
+    };
 
-//POSTS
+    alumnitos.push(alumno);
 
-/* async function obtenerPosts() {
-    const respuesta = await fetch("https://jsonplaceholder.typicode.com/posts");
-    const posts = await respuesta.json();
-    return posts
-}
+    localStorage.setItem(
+        "alumnos",
+        JSON.stringify(alumnitos)
+    );
 
-function mostrarPosts(posts) {
-    console.table({
-        id: posts[0].id,
-        title: posts[0].title,
-        body: posts[0].body
-    });
-}
+    mostrarMensaje("Alumno guardado correctamente");
 
-async function iniciarPosts() {
-    const posts = await obtenerPosts();
-    mostrarPosts(posts);
-}
-iniciarPosts();
- */
+    mostrarAlumnos(alumnitos);
+
+    formulario.reset();
+});
 
 
-//COMENTARIOS
+// OBTENER ALUMNOS
+function obtenerAlumnos() {
 
-/* async function obtenerComentarios() {
-    const respuesta = await fetch("https://jsonplaceholder.typicode.com/comments");
-    const comentarios = await respuesta.json();
-    return comentarios
-}
-
-function mostrarComentarios(comentarios) {
-    console.table({
-        id: comentarios[0].id,
-        name: comentarios[0].name,
-        email: comentarios[0].email,
-        body: comentarios[0].body
-    });
-}
-
-async function iniciarComentarios() {
-    const comentarios = await obtenerComentarios();
-    mostrarComentarios(comentarios);
-}   
-
-iniciarComentarios(); */
-
-async function obtenerAlumnos() {
-    const respuesta = await fetch("https://jsonplaceholder.typicode.com/users");
-
-    const alumnos = await respuesta.json();
-
-    return alumnos;
-}
-
-async function Obteneralumnitos() {
-    // Consumimos la API
-    const alumnos = await obtenerAlumnos();
-
-    console.log("Datos obtenidos de la API:");
-    console.table(alumnos);
-
-    // Guardamos los datos en localStorage
-    localStorage.setItem("alumnos", JSON.stringify(alumnos));
-
-    // Recuperamos los datos
     const datos = localStorage.getItem("alumnos");
 
-    // Convertimos el JSON nuevamente a objeto/array
-    const alumnosRecuperados = JSON.parse(datos);
+    if (datos) {
+        return JSON.parse(datos);
+    }
 
-    console.log("Datos recuperados de localStorage:");
-    console.log(alumnosRecuperados);
-    console.log(typeof alumnosRecuperados);
-
-    console.table(alumnosRecuperados);
+    return [];
 }
 
-Obteneralumnitos();
+
+// MOSTRAR MENSAJE
+function mostrarMensaje(texto) {
+
+    mensaje.textContent = texto;
+
+    setTimeout(() => {
+        mensaje.textContent = "";
+    }, 3000);
+}
+
+
+// MOSTRAR ALUMNOS
+function mostrarAlumnos(alumnos) {
+
+    listaAlumnos.innerHTML = "";
+
+    alumnosCantidad.textContent =
+        `Cantidad de alumnos: ${alumnos.length}`;
+
+    for (const alumno of alumnos) {
+
+        listaAlumnos.innerHTML += `
+            <tr>
+                <td>${alumno.id}</td>
+                <td>${alumno.nombre}</td>
+                <td>${alumno.carrera}</td>
+                <td>${alumno.correo}</td>
+                <td>
+                    <button 
+                        class="btn-editar" 
+                        data-id="${alumno.id}">
+                        Editar
+                    </button>
+
+                    <button 
+                        class="btn-eliminar" 
+                        data-id="${alumno.id}">
+                        Eliminar
+                    </button>
+                </td>
+            </tr>
+        `;
+    }
+}
+
+
+// ELIMINAR ALUMNO
+function eliminarAlumno(id) {
+
+    const alumnos = obtenerAlumnos();
+
+    const alumnosActualizados = alumnos.filter(
+        alumno => alumno.id !== Number(id)
+    );
+
+    localStorage.setItem(
+        "alumnos",
+        JSON.stringify(alumnosActualizados)
+    );
+
+    mostrarAlumnos(alumnosActualizados);
+
+    mostrarMensaje("Alumno eliminado correctamente");
+}
+
+
+// BOTONES EDITAR Y ELIMINAR
+listaAlumnos.addEventListener("click", (e) => {
+
+    // ELIMINAR
+    if (e.target.classList.contains("btn-eliminar")) {
+
+        const id = Number(e.target.dataset.id);
+
+        eliminarAlumno(id);
+    }
+
+
+    // EDITAR
+    if (e.target.classList.contains("btn-editar")) {
+
+        const id = Number(e.target.dataset.id);
+
+        editarAlumno(id);
+    }
+});
+
+
+// EDITAR ALUMNO
+function editarAlumno(id) {
+
+    const alumnos = obtenerAlumnos();
+
+    const alumno = alumnos.find(
+        alumno => alumno.id === Number(id)
+    );
+
+    if (!alumno) {
+        return;
+    }
+
+    document.getElementById("nombre").value = alumno.nombre;
+    document.getElementById("carrera").value = alumno.carrera;
+    document.getElementById("correo").value = alumno.correo;
+
+    // Guardamos el ID del alumno que estamos editando
+    alumnoEditandoId = alumno.id;
+}
+
+
+// MOSTRAR ALUMNOS AL CARGAR LA PÁGINA
+mostrarAlumnos(obtenerAlumnos());
