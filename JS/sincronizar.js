@@ -1,97 +1,152 @@
-//console.log("Inicio del programa");
+// console.log("Inicio")
+// setTimeout(() => {
+//     console.log("Buscando alumnos...")
+// }, 3000)
+// console.log("Fin")
 
-//function obtenerAlumno() {
-  //  return new Promise((resolve) => {
-       // setTimeout(() => {
-         //   console.log("Obteniendo alumnos...");
-     //       resolve(["Ana", "Juan", "Pedro"]);
-   //     }, 3000);
- //   });
-//}
+// function saludar(){
+//     console.log("Hola")
+// }
+// function ejecutar(funcion){
+//     funcion();
+// }
+// ejecutar(saludar)
 
-//obtenerAlumno().then((alumnos) => {
-//    console.log(alumnos);
-//});
+// function despedirse(){
+//     console.log("Hasta luego")
+// }
+// setTimeout(despedirse, 3000)
 
-//async function iniciar() {
-  //  const alumnos = await obtenerAlumno();
-  //  console.log(alumnos);
-//}
-//iniciar();
+// setTimeout(() => {
+//     console.log("Buscando docentes...")
+// }, 2000);
 
-/*function obtenerClima() {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            console.log("Obteniendo clima...");
-            resolve("Sol");
-        }, 3000);
-    });
-}*/
+// setTimeout(() => {
+//     console.log("Buscando materias...")
+// }, 4000);
 
-//Con Then 
-//obtenerClima().then((clima) => {
-  //  console.log(clima);
-//});
+// setTimeout(() => {
+//     console.log("Buscando cursos...")
+// }, 1000);
 
-//Con Async/Await
+// console.log("Abriendo SGA")
+// setTimeout(() => {
+//     console.log("Alumnos cargados")
+// }, 3000);
 
-/*async function mostrarClima() {
-    const clima = await obtenerClima();
-    console.log(clima);
+// console.log("El usuario puede seguir navegando")
+
+// function obtenerAlumnos(){
+//    return new Promise((resolve) => {
+//     setTimeout(() => {
+//         console.log("Ya tengo el arreglo")
+//         resolve(["Ana", "Juan", "Pedro"])
+//     }, 3000);
+//    })
+// }
+// // obtenerAlumnos().then((alumnos) => {
+// //     console.log(alumnos)
+// // })
+
+// // async function iniciar() {
+// //     const alumnos = await obtenerAlumnos()
+// //     console.log(alumnos)
+// // } 
+// // iniciar()
+
+// // login(usuario).then((usuario) => {
+// //     return obtenerCursos(usuario.id)
+// // })
+// // .then((cursos) => {
+// //     return obtenerNotas(cursos)
+// // })
+// // .then((notas) => {
+// //     console.log(notas)
+// // })
+// // .catch((error) => {
+// //     console.log(error)
+// // })
+
+// // async function mostrarNotas(){
+// //     try {
+// //     const usuario = await login(usuario)
+// //     const cursos = await obtnerCursos(usuario.id)
+// //     const notas = await obtenerNotas(cursos)
+// //     console.log(notas)
+// //     }
+// //     catch(error) {
+// //         console.log()
+// //     }
+// // }
+
+// function obtenerClima() {
+//     return new Promise((resolve) => {
+//         setTimeout(() => {
+//             resolve("22°c - Soleado")
+//         }, 2000)
+//     })
+// }
+
+// // con then()
+// obtenerClima().then((clima) => {
+//     console.log(clima)
+// });
+
+// // con async/await
+// async function mostrarClima() {
+//     const clima = await obtenerClima()
+//     console.log(clima)
+// }
+
+// mostrarClima()
+
+// function consultarSaldo() {
+//     return new Promise((resolve) => {
+//     setTimeout(() => {
+//         resolve(125000)
+//     }, 3000);
+// });
+// }
+
+// async function mostrarSaldo(){
+//     const saldo = await consultarSaldo()
+//     console.log(`Su saldo es: $${saldo}`)
+// }
+// mostrarSaldo()
+
+// function iniciarSesion() {
+//     return new Promise((resolve) => {
+//         setTimeout(() => {
+//             resolve("Bienvenida, Irina")
+//         }, 2000)
+//     })
+// }
+// async function mostrarInicio() {
+//     const mensaje = await iniciarSesion()
+//     console.log(mensaje)
+// }
+// mostrarInicio()
+
+// function obtenerUsuario(){
+//     return new Promise((resolve) => {
+//         setTimeout(() => {
+//             resolve({
+//                 id: 1,
+//                 nombre: "Maria",
+//                 edad: 25
+//             })
+//         }, 3000);
+//     })
+// }
+// async function mostrarUsuario(){
+//     console.log("Consultando usuario...")
+//     const usuario = await obtenerUsuario()
+//     console.log(usuario)
+// }
+// mostrarUsuario()
+
+async function prueba(){
+const respuesta = await fetch("https://jsonplaceholder.typicode.com/users")
+console.log(respuesta)
 }
-
-mostrarClima();*/
-
-/* function constultarSaldo() {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            console.log("Consultando saldo...");
-            resolve(100000);
-        }, 3000);
-    });
-}
-
-async function mostrarSaldo() {
-    const saldo = await constultarSaldo();
-    console.log(`El saldo es: $${saldo}`);
-}
-mostrarSaldo(); */
-
-/* function IniciarSesion() {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            console.log("Iniciando sesión...");
-            resolve("Sesión iniciada");
-        }, 3000);
-    });
-}
-
-async function mostrarSesion() {
-    const sesion = await IniciarSesion();
-    console.log(sesion);
-}
-mostrarSesion(); */
-
-
-/* function obtenerUsuariosrey() {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            console.log("Datos obtenidos mi rey...");
-            resolve({
-                id: 1,
-                nombre: "rey",
-                apellido: "francisco",
-                edad: 30
-            })
-        }, 3000);
-    });
-}
-
-async function mostrarUsuarios(){
-    console.log("Consultando a la base de datos...");
-    const usuarios = await obtenerUsuariosrey();
-    console.log(usuarios);
-}
-
-mostrarUsuarios(); */
-
+prueba()

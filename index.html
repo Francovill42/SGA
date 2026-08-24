@@ -1,77 +1,96 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/index.css">
 
-    <title>SGA</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <title>SGA - Sistema de Gestión Académica</title>
 </head>
 
 <body>
 
     <header>
-        <h1>Sistema de Gestión Académica</h1>
+        <nav>
+            <a href="index.html" class="activo">Inicio</a>
+            <a href="alumnos.html">Alumnos</a>
+            <a href="docentes.html">Docentes</a>
+        </nav>
     </header>
 
-    <main>
+    <main class="Inicio">
 
-        <section class="formulario">
+        <div class="bienvenida">
+            <div class="icono-principal">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
 
-            <h2>Alta de Alumnos</h2>
+            <h1>Sistema de Gestión Académica</h1>
 
-            <form id="forAlumno">
+            <p>
+                Bienvenido al Sistema de Gestión Académica
+            </p>
 
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" >
+            <span>
+                Seleccioná una opción para comenzar
+            </span>
+        </div>
 
-                <label for="carrera">Carrera:</label>
-                <input type="text" id="carrera" name="carrera" >
+        <section class="modulo">
 
-                <label for="correo">Correo electrónico:</label>
-                <input type="email" id="correo" name="correo" >
+            <a href="alumnos.html" class="tarjeta">
+                <div class="icono-tarjeta">
+                    <i class="fa-solid fa-users"></i>
+                </div>
 
-                <button type="submit">
-                    Guardar Alumno
-                </button>
+                <div class="contenido-tarjeta">
+                    <h2>Alumnos</h2>
+                    <p>Gestionar alumnos registrados en el sistema.</p>
+                </div>
 
-            </form>
-
-            <p id="mensaje" class="oculto"></p>
-
-        </section>
+                <i class="fa-solid fa-arrow-right flecha"></i>
+            </a>
 
 
-        <section class="alumnos-registrados">
+            <a href="docentes.html" class="tarjeta">
+                <div class="icono-tarjeta">
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                </div>
 
-            <h2>Alumnos Registrados</h2>
+                <div class="contenido-tarjeta">
+                    <h2>Docentes</h2>
+                    <p>Gestionar docentes registrados en el sistema.</p>
+                </div>
 
-            <p id="alumnosCantidad"></p>
+                <i class="fa-solid fa-arrow-right flecha"></i>
+            </a>
 
-            <table>
 
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Carrera</th>
-                        <th>Correo</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
+            <div class="tarjeta tarjeta-deshabilitada">
+                <div class="icono-tarjeta">
+                    <i class="fa-solid fa-book"></i>
+                </div>
 
-                <tbody id="listaAlumnos"></tbody>
+                <div class="contenido-tarjeta">
+                    <h2>Materias</h2>
+                    <p>Este módulo estará disponible próximamente.</p>
+                </div>
 
-            </table>
+                <span class="proximamente">Próximamente</span>
+            </div>
 
         </section>
 
     </main>
 
-    <script src="JS/alumnos.js"></script>
+    <footer>
+        <p>SGA &copy; 2026 - Sistema de Gestión Académica</p>
+    </footer>
 
 </body>
-
 </html>

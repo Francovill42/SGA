@@ -7,6 +7,7 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #f2f2f2;
+    color: #333;
 }
 
 header {
@@ -14,6 +15,29 @@ header {
     color: white;
     padding: 20px;
     text-align: center;
+}
+
+nav {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    padding: 0 20px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 18px 20px;
+    transition: background-color 0.2s, border-radius 0.2s;
+}
+
+nav a:hover {
+    background-color: rgb(16, 202, 72);
+    border-radius: 10px;
+}
+nav a.activo{
+    border-radius: 10px ;
 }
 
 main {
@@ -69,13 +93,9 @@ form button {
 }
 
 
-/* =========================
-   MENSAJES
-   ========================= */
-/* =========================
-   MENSAJES / NOTIFICACIONES
-   ========================= */
+/* MENSAJES / NOTIFICACIONES */
 
+#mensajeDocente,
 #mensaje {
     position: fixed;
     top: 20px;
@@ -101,24 +121,20 @@ form button {
 
 /* Mensaje de éxito */
 
-.msj-exito {
+.mje-exito {
     display: block;
-
     background-color: #73c977;
     color: #014405;
-
     border-left: 5px solid #218838;
 }
 
 
 /* Mensaje de error */
 
-.msj-error {
+.mje-error {
     display: block;
-
     background-color: #f8d7da;
     color: #842029;
-
     border-left: 5px solid #dc3545;
 }
 
@@ -130,9 +146,7 @@ form button {
 }
 
 
-/* =========================
-   TABLA
-   ========================= */
+/* TABLA */
 
 table {
     width: 100%;
@@ -157,6 +171,9 @@ td {
     color: black;
 }
 
+
+/* BOTONES DE ACCIONES */
+
 .btn-editar {
     background-color: #e0a800;
     margin-right: 5px;
@@ -173,3 +190,210 @@ td {
 .btn-eliminar:hover {
     background-color: #a71d2a;
 }
+/* =========================
+   ESTILOS PARA INDEX
+========================= */
+
+.Inicio {
+    text-align: center;
+    padding-top: 20px;
+}
+
+.Inicio h1 {
+    color: #011c39;
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.Inicio > p {
+    color: #666;
+    font-size: 18px;
+    margin-bottom: 35px;
+}
+
+
+/* CONTENEDOR DE LAS TARJETAS */
+
+.modulo {
+    background-color: transparent;
+    padding: 0;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+
+    text-align: center;
+}
+
+
+/* TARJETAS */
+
+.tarjeta {
+    position: relative;
+
+    background-color: white;
+    color: #333;
+
+    text-decoration: none;
+
+    padding: 30px 20px;
+
+    min-height: 220px;
+
+    border: 1px solid #ddd;
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease,
+        border-radius 0.3s ease;
+}
+
+
+/* EFECTO AL PASAR EL MOUSE */
+
+.tarjeta:not(.tarjeta-dasabilitada):hover {
+    transform: translateY(-7px);
+
+    border-color: rgb(16, 202, 72);
+
+    border-radius: 15px;
+
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+
+/* ICONOS DE LAS TARJETAS */
+
+.tarjeta i {
+    font-size: 35px;
+
+    color: white;
+
+    background-color: #011c39;
+
+    width: 70px;
+    height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    margin-bottom: 15px;
+
+    transition:
+        background-color 0.3s ease,
+        transform 0.3s ease;
+}
+
+
+/* CAMBIO DEL ICONO AL HACER HOVER */
+
+.tarjeta:not(.tarjeta-dasabilitada):hover i {
+    background-color: rgb(16, 202, 72);
+
+    transform: scale(1.08);
+}
+
+
+/* TITULO DE LAS TARJETAS */
+
+.tarjeta h2 {
+    color: #011c39;
+
+    font-size: 22px;
+
+    margin-bottom: 8px;
+}
+
+
+/* DESCRIPCION */
+
+.tarjeta p {
+    color: #777;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+/* TARJETA DESHABILITADA */
+
+.tarjeta-dasabilitada {
+    background-color: #e5e5e5;
+
+    color: #777;
+
+    cursor: not-allowed;
+
+    opacity: 0.7;
+
+    box-shadow: none;
+}
+
+.tarjeta-dasabilitada i {
+    background-color: #777;
+}
+
+.tarjeta-dasabilitada h2 {
+    color: #666;
+}
+
+.tarjeta-dasabilitada p {
+    color: #888;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 800px) {
+
+    .modulo {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .Inicio h1 {
+        font-size: 30px;
+    }
+}
+
+
+@media (max-width: 550px) {
+
+    .modulo {
+        grid-template-columns: 1fr;
+    }
+
+    .Inicio h1 {
+        font-size: 26px;
+    }
+
+    .Inicio > p {
+        font-size: 16px;
+    }
+}
+
+footer{
+    text-align: center;
+    padding: 12px;
+    margin: 100px auto;
+    width: 300px;
+    background-color: #020144;
+    color: white;
+    border-radius: 20px;
+    box-shadow: 30px 10px 30px rgba(0, 0, 0, 0.573);
+}
+
