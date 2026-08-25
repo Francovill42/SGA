@@ -4,6 +4,9 @@ const listaAlumnos = document.querySelector("#listaAlumnos")
 
 let alumnoEditandoId = null
 
+// Guardamos los datos que tenía el alumno antes de editar
+let datosOriginales = null
+
 
 // GUARDAR / EDITAR ALUMNO
 
@@ -85,6 +88,36 @@ formulario.addEventListener("submit", function (event) {
 
     else {
 
+        // Comparamos el objeto completo con los datos originales
+        // en vez de campo por campo (más fácil de mantener)
+
+        const datosNuevos = { nombre, carrera, correo }
+
+        const sinCambios =
+            JSON.stringify(datosNuevos) === JSON.stringify(datosOriginales)
+
+        if (sinCambios) {
+
+            mostrarMensaje(
+                "No realizaste ningún cambio",
+                "mje-error"
+            )
+
+            return
+        }
+
+
+        // Confirmación antes de actualizar, igual que al eliminar
+
+        const confirmarEdicion = confirm(
+            "¿Está seguro de actualizar este alumno?"
+        )
+
+        if (!confirmarEdicion) {
+            return
+        }
+
+
         const alumno = alumnos.find(
             alumno => alumno.id === alumnoEditandoId
         )
@@ -99,10 +132,7 @@ formulario.addEventListener("submit", function (event) {
         }
 
 
-        alumnoEditandoId = null
-
-        formulario.querySelector("button").textContent =
-            "Guardar Alumno"
+        cancelarEdicion()
 
 
         mostrarMensaje(
@@ -112,17 +142,14 @@ formulario.addEventListener("submit", function (event) {
     }
 
 
-    // GUARDAR EN LOCALSTORAGE
-
-    localStorage.setItem(
-        "alumnos",
-        JSON.stringify(alumnos)
-    )
-
-
     // MOSTRAR ALUMNOS
 
     mostrarAlumnos(alumnos)
+
+
+    // GUARDAR DATOS
+
+    guardarDatos("alumnos", alumnos)
 
 
     // LIMPIAR FORMULARIO
@@ -135,36 +162,7 @@ formulario.addEventListener("submit", function (event) {
 // OBTENER ALUMNOS
 
 function obtenerAlumnos() {
-
-    const datos = localStorage.getItem("alumnos")
-
-    if (datos) {
-
-        return JSON.parse(datos)
-
-    }
-
-    return []
-}
-
-
-// MOSTRAR MENSAJES
-
-function mostrarMensaje(texto, tipo) {
-
-    mensaje.textContent = texto
-
-    mensaje.className = tipo
-
-
-    setTimeout(() => {
-
-        mensaje.textContent = ""
-
-        mensaje.className = "oculto"
-
-    }, 3000)
-
+    return obtenerDatos("alumnos")
 }
 
 
@@ -244,12 +242,7 @@ function eliminarAlumno(id) {
 
     if (alumnoEditandoId === id) {
 
-        formulario.reset()
-
-        alumnoEditandoId = null
-
-        formulario.querySelector("button").textContent =
-            "Guardar Alumno"
+        cancelarEdicion()
     }
 
 
@@ -287,6 +280,8 @@ listaAlumnos.addEventListener("click", function (e) {
             eliminarAlumno(id)
 
         }
+
+        return
     }
 
 
@@ -326,6 +321,17 @@ function editarAlumno(id) {
     }
 
 
+    // Guardamos los datos originales
+
+    datosOriginales = {
+        nombre: alumno.nombre,
+        carrera: alumno.carrera,
+        correo: alumno.correo
+    }
+
+
+    // Cargamos los datos en el formulario
+
     document.querySelector("#nombre").value =
         alumno.nombre
 
@@ -338,15 +344,67 @@ function editarAlumno(id) {
         alumno.correo
 
 
+    // Guardamos el ID del alumno que estamos editando
+
     alumnoEditandoId = id
 
+
+    // Cambiamos el botón
 
     formulario.querySelector("button").textContent =
         "Actualizar Alumno"
 
 
+    // Mostramos el botón de cancelar
+
+    const botonCancelar = document.querySelector("#btnCancelar")
+
+    if (botonCancelar) {
+        botonCancelar.style.display = "inline-block"
+    }
+
+
     document.querySelector("#nombre").focus()
 
+}
+
+
+// CANCELAR EDICIÓN
+
+function cancelarEdicion() {
+
+    alumnoEditandoId = null
+    datosOriginales = null
+
+    formulario.reset()
+
+    formulario.querySelector("button").textContent =
+        "Guardar Alumno"
+
+
+    const botonCancelar = document.querySelector("#btnCancelar")
+
+    if (botonCancelar) {
+        botonCancelar.style.display = "none"
+    }
+}
+
+
+// LISTENER DEL BOTÓN CANCELAR
+
+const botonCancelar = document.querySelector("#btnCancelar")
+
+if (botonCancelar) {
+
+    botonCancelar.addEventListener("click", function () {
+
+        cancelarEdicion()
+
+        mostrarMensaje(
+            "Edición cancelada",
+            "mje-error"
+        )
+    })
 }
 
 

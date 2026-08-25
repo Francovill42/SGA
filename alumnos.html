@@ -6,11 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
     <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <script src="JS/storage.js" defer></script>
+
+    <script src="JS/UI.js" defer></script>
 
     <script src="JS/alumnos.js" defer></script>
+
+
+
 
     <title>SGA - Alumnos</title>
 </head>
@@ -53,6 +61,9 @@
 
                 <button type="submit">Guardar Alumno</button>
 
+                <button type="button" id="btnCancelar" style="display: none;">
+                    Cancelar
+                </button>
             </form>
 
             <p id="mensaje" class="oculto"></p>

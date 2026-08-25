@@ -1,8 +1,11 @@
 const formulario = document.querySelector("#formDocente")
-const mensaje = document.querySelector("#mensajeDocente")
+const mensaje = document.querySelector("#mensaje")
 const listaDocentes = document.querySelector("#listaDocentes")
 
 let docenteEditandoId = null
+
+// Guardamos los datos originales del docente
+let datosOriginales = null
 
 
 // GUARDAR / EDITAR DOCENTE
@@ -96,6 +99,36 @@ formulario.addEventListener("submit", function (event) {
 
     else {
 
+        // Comparamos el objeto completo con los datos originales
+        // en vez de campo por campo (más fácil de mantener)
+
+        const datosNuevos = { nombre, especialidad, correo }
+
+        const sinCambios =
+            JSON.stringify(datosNuevos) === JSON.stringify(datosOriginales)
+
+        if (sinCambios) {
+
+            mostrarMensaje(
+                "No realizaste ningún cambio",
+                "mje-error"
+            )
+
+            return
+        }
+
+
+        // Confirmación antes de actualizar, igual que al eliminar
+
+        const confirmarEdicion = confirm(
+            "¿Está seguro de actualizar este docente?"
+        )
+
+        if (!confirmarEdicion) {
+            return
+        }
+
+
         const docente = docentes.find(
             docente => docente.id === docenteEditandoId
         )
@@ -110,11 +143,7 @@ formulario.addEventListener("submit", function (event) {
         }
 
 
-        docenteEditandoId = null
-
-
-        formulario.querySelector("button").textContent =
-            "Guardar Docente"
+        cancelarEdicion()
 
 
         mostrarMensaje(
@@ -125,17 +154,14 @@ formulario.addEventListener("submit", function (event) {
     }
 
 
-    // GUARDAR EN LOCALSTORAGE
-
-    localStorage.setItem(
-        "docentes",
-        JSON.stringify(docentes)
-    )
-
-
     // MOSTRAR DOCENTES
 
     mostrarDocentes(docentes)
+
+
+    // GUARDAR DATOS
+
+    guardarDatos("docentes", docentes)
 
 
     // LIMPIAR FORMULARIO
@@ -148,38 +174,7 @@ formulario.addEventListener("submit", function (event) {
 // OBTENER DOCENTES
 
 function obtenerDocentes() {
-
-    const datos =
-        localStorage.getItem("docentes")
-
-
-    if (datos) {
-
-        return JSON.parse(datos)
-
-    }
-
-    return []
-}
-
-
-// MOSTRAR MENSAJES
-
-function mostrarMensaje(texto, tipo) {
-
-    mensaje.textContent = texto
-
-    mensaje.className = tipo
-
-
-    setTimeout(() => {
-
-        mensaje.textContent = ""
-
-        mensaje.className = "oculto"
-
-    }, 3000)
-
+    return obtenerDatos("docentes")
 }
 
 
@@ -246,9 +241,9 @@ function eliminarDocente(id) {
     )
 
 
-    localStorage.setItem(
+    guardarDatos(
         "docentes",
-        JSON.stringify(docentesActualizados)
+        docentesActualizados
     )
 
 
@@ -259,13 +254,7 @@ function eliminarDocente(id) {
 
     if (docenteEditandoId === id) {
 
-        formulario.reset()
-
-        docenteEditandoId = null
-
-        formulario.querySelector("button").textContent =
-            "Guardar Docente"
-
+        cancelarEdicion()
     }
 
 
@@ -304,6 +293,7 @@ listaDocentes.addEventListener("click", function (e) {
 
         }
 
+        return
     }
 
 
@@ -343,6 +333,21 @@ function editarDocente(id) {
     }
 
 
+    // GUARDAR LOS DATOS ORIGINALES
+
+    datosOriginales = {
+
+        nombre: docente.nombre,
+
+        especialidad: docente.especialidad,
+
+        correo: docente.correo
+
+    }
+
+
+    // CARGAR DATOS EN EL FORMULARIO
+
     document.querySelector("#nombreDocente").value =
         docente.nombre
 
@@ -355,15 +360,69 @@ function editarDocente(id) {
         docente.correo
 
 
+    // GUARDAR EL ID DEL DOCENTE
+
     docenteEditandoId = id
 
+
+    // CAMBIAR TEXTO DEL BOTÓN
 
     formulario.querySelector("button").textContent =
         "Actualizar Docente"
 
 
+    // MOSTRAR EL BOTÓN DE CANCELAR
+
+    const botonCancelar = document.querySelector("#btnCancelar")
+
+    if (botonCancelar) {
+        botonCancelar.style.display = "inline-block"
+    }
+
+
+    // LLEVAR EL CURSOR AL NOMBRE
+
     document.querySelector("#nombreDocente").focus()
 
+}
+
+
+// CANCELAR EDICIÓN
+
+function cancelarEdicion() {
+
+    docenteEditandoId = null
+    datosOriginales = null
+
+    formulario.reset()
+
+    formulario.querySelector("button").textContent =
+        "Guardar Docente"
+
+
+    const botonCancelar = document.querySelector("#btnCancelar")
+
+    if (botonCancelar) {
+        botonCancelar.style.display = "none"
+    }
+}
+
+
+// LISTENER DEL BOTÓN CANCELAR
+
+const botonCancelar = document.querySelector("#btnCancelar")
+
+if (botonCancelar) {
+
+    botonCancelar.addEventListener("click", function () {
+
+        cancelarEdicion()
+
+        mostrarMensaje(
+            "Edición cancelada",
+            "mje-error"
+        )
+    })
 }
 
 
