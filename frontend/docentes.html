@@ -15,12 +15,13 @@
 
     <script src="JS/UI.js" defer></script>
 
-    <script src="JS/alumnos.js" defer></script>
+    <script src="JS/docentes.js" defer></script>
 
 
 
 
-    <title>SGA - Alumnos</title>
+
+    <title>SGA - Docentes</title>
 </head>
 
 <body>
@@ -31,26 +32,26 @@
         <nav>
             <a href="index.html">Inicio</a>
             <a href="alumnos.html">Alumnos</a>
-            <a href="docentes.html">Docentes</a>
+            <a href="docentes.html" class="activo">Docentes</a>
         </nav>
     </header>
 
     <main>
 
-        <!-- FORMULARIO PARA AGREGAR ALUMNOS -->
+        <!-- FORMULARIO PARA AGREGAR DOCENTES -->
         <section class="formulario">
 
-            <h2>Alta de Alumno</h2>
+            <h2>Alta de Docente</h2>
 
-            <form id="formAlumno">
+            <form id="formDocente">
 
-                <label for="nombre">Nombre</label>
-                <input type="text" id="nombre">
+                <label for="nombreDocente">Nombre</label>
+                <input type="text" id="nombreDocente">
 
                 <br><br>
 
-                <label for="carrera">Carrera</label>
-                <input type="text" id="carrera">
+                <label for="especialidad">Especialidad</label>
+                <input type="text" id="especialidad">
 
                 <br><br>
 
@@ -59,7 +60,7 @@
 
                 <br><br>
 
-                <button type="submit">Guardar Alumno</button>
+                <button type="submit">Guardar Docente</button>
 
                 <button type="button" id="btnCancelar" style="display: none;">
                     Cancelar
@@ -71,12 +72,12 @@
         </section>
 
 
-        <!-- LISTA DE ALUMNOS -->
-        <section class="alumnos">
+        <!-- LISTA DE DOCENTES -->
+        <section class="docentes">
 
-            <h2>Alumnos registrados</h2>
+            <h2>Docentes registrados</h2>
 
-            <p id="cantidadAlumnos"></p>
+            <p id="cantidadDocentes"></p>
 
             <table>
 
@@ -84,13 +85,13 @@
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>
-                        <th>Carrera</th>
+                        <th>Especialidad</th>
                         <th>Correo</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
 
-                <tbody id="listaAlumnos"></tbody>
+                <tbody id="listaDocentes"></tbody>
 
             </table>
 

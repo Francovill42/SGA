@@ -1,37 +1,27 @@
-const formulario = document.querySelector("#formDocente")
+const formulario = document.querySelector("#formAlumno")
 const mensaje = document.querySelector("#mensaje")
-const listaDocentes = document.querySelector("#listaDocentes")
+const listaAlumnos = document.querySelector("#listaAlumnos")
 
-let docenteEditandoId = null
+let alumnoEditandoId = null
 
-// Guardamos los datos originales del docente
+// Guardamos los datos que tenía el alumno antes de editar
 let datosOriginales = null
 
 
-// GUARDAR / EDITAR DOCENTE
+// GUARDAR / EDITAR ALUMNO
 
 formulario.addEventListener("submit", function (event) {
 
     event.preventDefault()
 
-
-    const nombre =
-        document.querySelector("#nombreDocente").value.trim()
-
-    const especialidad =
-        document.querySelector("#especialidad").value.trim()
-
-    const correo =
-        document.querySelector("#correo").value.trim()
+    const nombre = document.querySelector("#nombre").value.trim()
+    const carrera = document.querySelector("#carrera").value.trim()
+    const correo = document.querySelector("#correo").value.trim()
 
 
     // VALIDAR CAMPOS VACÍOS
 
-    if (
-        nombre === "" ||
-        especialidad === "" ||
-        correo === ""
-    ) {
+    if (nombre === "" || carrera === "" || correo === "") {
 
         mostrarMensaje(
             "Todos los campos son obligatorios",
@@ -68,41 +58,40 @@ formulario.addEventListener("submit", function (event) {
     }
 
 
-    const docentes = obtenerDocentes()
+    const alumnos = obtenerAlumnos()
 
 
-    // AGREGAR DOCENTE
+    // AGREGAR ALUMNO
 
-    if (docenteEditandoId === null) {
+    if (alumnoEditandoId === null) {
 
-        const docente = {
+        const alumno = {
 
             id: Date.now(),
             nombre: nombre,
-            especialidad: especialidad,
+            carrera: carrera,
             correo: correo
 
         }
 
-        docentes.push(docente)
-
+        alumnos.push(alumno)
 
         mostrarMensaje(
-            "Docente guardado correctamente",
+            "Alumno guardado correctamente",
             "mje-exito"
         )
 
     }
 
 
-    // EDITAR DOCENTE
+    // EDITAR ALUMNO
 
     else {
 
         // Comparamos el objeto completo con los datos originales
         // en vez de campo por campo (más fácil de mantener)
 
-        const datosNuevos = { nombre, especialidad, correo }
+        const datosNuevos = { nombre, carrera, correo }
 
         const sinCambios =
             JSON.stringify(datosNuevos) === JSON.stringify(datosOriginales)
@@ -121,7 +110,7 @@ formulario.addEventListener("submit", function (event) {
         // Confirmación antes de actualizar, igual que al eliminar
 
         const confirmarEdicion = confirm(
-            "¿Está seguro de actualizar este docente?"
+            "¿Está seguro de actualizar este alumno?"
         )
 
         if (!confirmarEdicion) {
@@ -129,16 +118,16 @@ formulario.addEventListener("submit", function (event) {
         }
 
 
-        const docente = docentes.find(
-            docente => docente.id === docenteEditandoId
+        const alumno = alumnos.find(
+            alumno => alumno.id === alumnoEditandoId
         )
 
 
-        if (docente) {
+        if (alumno) {
 
-            docente.nombre = nombre
-            docente.especialidad = especialidad
-            docente.correo = correo
+            alumno.nombre = nombre
+            alumno.carrera = carrera
+            alumno.correo = correo
 
         }
 
@@ -147,21 +136,20 @@ formulario.addEventListener("submit", function (event) {
 
 
         mostrarMensaje(
-            "Docente actualizado correctamente",
+            "Alumno actualizado correctamente",
             "mje-exito"
         )
-
     }
 
 
-    // MOSTRAR DOCENTES
+    // MOSTRAR ALUMNOS
 
-    mostrarDocentes(docentes)
+    mostrarAlumnos(alumnos)
 
 
     // GUARDAR DATOS
 
-    guardarDatos("docentes", docentes)
+    guardarDatos("alumnos", alumnos)
 
 
     // LIMPIAR FORMULARIO
@@ -171,40 +159,40 @@ formulario.addEventListener("submit", function (event) {
 })
 
 
-// OBTENER DOCENTES
+// OBTENER ALUMNOS
 
-function obtenerDocentes() {
-    return obtenerDatos("docentes")
+function obtenerAlumnos() {
+    return obtenerDatos("alumnos")
 }
 
 
-// MOSTRAR DOCENTES EN LA TABLA
+// MOSTRAR ALUMNOS EN LA TABLA
 
-function mostrarDocentes(docentes) {
+function mostrarAlumnos(alumnos) {
 
-    listaDocentes.innerHTML = ""
+    listaAlumnos.innerHTML = ""
 
 
-    for (const docente of docentes) {
+    for (const alumno of alumnos) {
 
-        listaDocentes.innerHTML += `
+        listaAlumnos.innerHTML += `
 
             <tr>
 
-                <td>${docente.id}</td>
+                <td>${alumno.id}</td>
 
-                <td>${docente.nombre}</td>
+                <td>${alumno.nombre}</td>
 
-                <td>${docente.especialidad}</td>
+                <td>${alumno.carrera}</td>
 
-                <td>${docente.correo}</td>
+                <td>${alumno.correo}</td>
 
                 <td>
 
                     <button
                         class="btn-editar"
-                        data-id="${docente.id}"
-                        title="Editar docente">
+                        data-id="${alumno.id}"
+                        title="Editar alumno">
 
                         <i class="fa-solid fa-pen"></i>
 
@@ -213,8 +201,8 @@ function mostrarDocentes(docentes) {
 
                     <button
                         class="btn-eliminar"
-                        data-id="${docente.id}"
-                        title="Eliminar docente">
+                        data-id="${alumno.id}"
+                        title="Eliminar alumno">
 
                         <i class="fa-solid fa-trash"></i>
 
@@ -229,37 +217,37 @@ function mostrarDocentes(docentes) {
 }
 
 
-// ELIMINAR DOCENTE
+// ELIMINAR ALUMNO
 
-function eliminarDocente(id) {
+function eliminarAlumno(id) {
 
-    const docentes = obtenerDocentes()
+    const alumnos = obtenerAlumnos()
 
 
-    const docentesActualizados = docentes.filter(
-        docente => docente.id !== id
+    const alumnosActualizados = alumnos.filter(
+        alumno => alumno.id !== id
     )
 
 
-    guardarDatos(
-        "docentes",
-        docentesActualizados
+    localStorage.setItem(
+        "alumnos",
+        JSON.stringify(alumnosActualizados)
     )
 
 
-    mostrarDocentes(docentesActualizados)
+    mostrarAlumnos(alumnosActualizados)
 
 
-    // SI ESTABA EDITANDO EL DOCENTE ELIMINADO
+    // SI ESTABA EDITANDO EL ALUMNO ELIMINADO
 
-    if (docenteEditandoId === id) {
+    if (alumnoEditandoId === id) {
 
         cancelarEdicion()
     }
 
 
     mostrarMensaje(
-        "Docente eliminado correctamente",
+        "Alumno eliminado correctamente",
         "mje-exito"
     )
 }
@@ -267,7 +255,7 @@ function eliminarDocente(id) {
 
 // BOTONES DE EDITAR Y ELIMINAR
 
-listaDocentes.addEventListener("click", function (e) {
+listaAlumnos.addEventListener("click", function (e) {
 
 
     // BOTÓN ELIMINAR
@@ -283,13 +271,13 @@ listaDocentes.addEventListener("click", function (e) {
 
 
         const confirmar = confirm(
-            "¿Está seguro de eliminar este docente?"
+            "¿Está seguro de eliminar este alumno?"
         )
 
 
         if (confirmar) {
 
-            eliminarDocente(id)
+            eliminarAlumno(id)
 
         }
 
@@ -309,69 +297,65 @@ listaDocentes.addEventListener("click", function (e) {
             Number(botonEditar.dataset.id)
 
 
-        editarDocente(id)
+        editarAlumno(id)
 
     }
 
 })
 
 
-// EDITAR DOCENTE
+// EDITAR ALUMNO
 
-function editarDocente(id) {
+function editarAlumno(id) {
 
-    const docentes = obtenerDocentes()
+    const alumnos = obtenerAlumnos()
 
 
-    const docente = docentes.find(
-        docente => docente.id === id
+    const alumno = alumnos.find(
+        alumno => alumno.id === id
     )
 
 
-    if (!docente) {
+    if (!alumno) {
         return
     }
 
 
-    // GUARDAR LOS DATOS ORIGINALES
+    // Guardamos los datos originales
 
     datosOriginales = {
-
-        nombre: docente.nombre,
-
-        especialidad: docente.especialidad,
-
-        correo: docente.correo
-
+        nombre: alumno.nombre,
+        carrera: alumno.carrera,
+        correo: alumno.correo
     }
 
 
-    // CARGAR DATOS EN EL FORMULARIO
+    // Cargamos los datos en el formulario
 
-    document.querySelector("#nombreDocente").value =
-        docente.nombre
+    document.querySelector("#nombre").value =
+        alumno.nombre
 
 
-    document.querySelector("#especialidad").value =
-        docente.especialidad
+    document.querySelector("#carrera").value =
+        alumno.carrera
 
 
     document.querySelector("#correo").value =
-        docente.correo
+        alumno.correo
 
 
-    // GUARDAR EL ID DEL DOCENTE
+    // Guardamos el ID del alumno que estamos editando
 
-    docenteEditandoId = id
+    alumnoEditandoId = id
 
 
-    // CAMBIAR TEXTO DEL BOTÓN
+    // Cambiamos el botón
 
     formulario.querySelector("button").textContent =
-        "Actualizar Docente"
+        "Actualizar Alumno"
 
 
-    // MOSTRAR EL BOTÓN DE CANCELAR
+    // Mostramos el botón de cancelar
 
     const botonCancelar = document.querySelector("#btnCancelar")
 
@@ -380,9 +364,7 @@ function editarDocente(id) {
     }
 
 
-    // LLEVAR EL CURSOR AL NOMBRE
-
-    document.querySelector("#nombreDocente").focus()
+    document.querySelector("#nombre").focus()
 
 }
 
@@ -391,13 +373,13 @@ function editarDocente(id) {
 
 function cancelarEdicion() {
 
-    docenteEditandoId = null
+    alumnoEditandoId = null
     datosOriginales = null
 
     formulario.reset()
 
     formulario.querySelector("button").textContent =
-        "Guardar Docente"
+        "Guardar Alumno"
 
 
     const botonCancelar = document.querySelector("#btnCancelar")
@@ -420,14 +402,14 @@ if (botonCancelar) {
 
         mostrarMensaje(
             "Edición cancelada",
-            "mje-error"
+            "mje-adv"
         )
     })
 }
 
 
-// MOSTRAR DOCENTES AL CARGAR LA PÁGINA
+// MOSTRAR ALUMNOS AL CARGAR LA PÁGINA
 
-const docentes = obtenerDocentes()
+const alumnos = obtenerAlumnos()
 
-mostrarDocentes(docentes)
+mostrarAlumnos(alumnos)

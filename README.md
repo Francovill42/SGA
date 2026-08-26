@@ -1,48 +1,81 @@
-Sistema de Gestión Académica (SGA)
+# Sistema de Gestión Académica (SGA)
+
 Proyecto desarrollado durante la materia Programación IV.
 
-Descripción
+## Descripción
+
 El Sistema de Gestión Académica (SGA) es una aplicación web que permitirá administrar alumnos, docentes, cursos y materias.
 
 Durante el desarrollo del proyecto se incorporarán progresivamente nuevas tecnologías y funcionalidades.
 
-Objetivos
-Gestionar alumnos.
 
-Gestionar docentes.
+## Objetivos
 
-Gestionar cursos.
+- Gestionar alumnos.
+- Gestionar docentes.
+- Gestionar cursos.
+- Gestionar materias.
+- Implementar autenticación de usuarios.
+- Consumir una API REST.
+- Persistir la información en MongoDB.
 
-Gestionar materias.
 
-Implementar autenticación de usuarios.
+## Tecnologías
 
-Consumir una API REST.
-
-Persistir la información en MongoDB.
-
-Tecnologías
 Actualmente:
 
-HTML5
-JavaScript
+- HTML5
+- JavaScript
+- CSS
+
+
 Próximamente:
+- React
+- Node.js
+- Express
+- MongoDB
 
-CSS3
+## Estado del proyecto
 
-JavaScript
+- Versión: 
+Clase 10 - Estructura actual
+SGA/
+fronted
+├── index.html
+├── alumnos.html
+├── docentes.html
+│
+├── css/
+│   └── index.css
+│
+└── js/
+    ├── alumnos.js
+    └──sincronia.js
+    └── docentes.js
+    └──storage.js
+    └──UI.js
 
-React
 
-Node.js
 
-Express
+## Estado Actual
 
-MongoDB
+- pagina de inicio y navegacion entre modulos
+- Modulo alumnos y docentes
+- CRUD alumnos/docentes
+- Validaciones de formularios
+- persistencias mediante localStorrage 
+- Organizacion del codito y refactorizacion
+- Separacion incila entre Frontend Y Backend
 
-Estado del proyecto
-Versión: Clase 02
-Autor
-Nombre del estudiante
+
+## Almacenamiento
+
+- localStorage
+- JSON.stringify()
+- JSON.parse()
+
+## Autor
+
+Irina Agretti
 
 Programación IV

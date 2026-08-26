@@ -1,4 +1,4 @@
-function guardarDatos(clave, datos){
+function guardarDatos(clave, datos) {
     localStorage.setItem(clave, JSON.stringify(datos))
 }
 

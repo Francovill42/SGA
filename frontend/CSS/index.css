@@ -127,8 +127,12 @@ form button {
     color: #014405;
     border-left: 5px solid #218838;
 }
-
-
+.mje-adv{
+display: block;
+    background-color: #daf700;
+    color: #000000ec;
+    border-left: 5px solid #688822;
+}
 /* Mensaje de error */
 
 .mje-error {
@@ -237,7 +241,7 @@ td {
     text-decoration: none;
 
     padding: 30px 20px;
-
+    margin: 15px;
     min-height: 220px;
 
     border: 1px solid #ddd;
@@ -279,7 +283,6 @@ td {
     color: white;
 
     background-color: #011c39;
-
     width: 70px;
     height: 70px;
 

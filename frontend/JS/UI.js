@@ -6,11 +6,11 @@ function mostrarMensaje(texto, clase) {
     mensaje.className = `mensaje ${clase}`
 
     mensaje.style.display = "block"
-    
+
     setTimeout(() => {
 
         mensaje.style.display = "none"
-    
+
     }, 3000)
 
 }
