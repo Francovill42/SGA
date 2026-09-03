@@ -10,9 +10,9 @@ POST http://localhost:3000/alumnos
 Content-Type: application/json
 
 {
-    "id": 7,
-    "nombre": "Lucia",
-    "carrera": "Programacion"
+    "id": 2,
+    "nombre": "Juan Mecanico",
+    "carrera": "Ingeniero En Sistemas"
 }
 ###
 PUT http://localhost:3000/alumnos/2

@@ -27,7 +27,8 @@ Actualmente:
 - HTML5
 - JavaScript
 - CSS
-
+- Express
+- Node.js
 
 Próximamente:
 - React
@@ -66,6 +67,11 @@ fronted
 - persistencias mediante localStorrage 
 - Organizacion del codito y refactorizacion
 - Separacion incila entre Frontend Y Backend
+- Implementacion de validaciones para los datos recibidos mediante req.body
+- Uso de status 400 para datos indvalidos
+- status 404 para alumno no encontrado
+- status 201 para registrar nuevo alumno 
+- Manejo basico de errores en las operaciones del CRUD.
 
 
 ## Almacenamiento

@@ -1,31 +1,4 @@
-let alumnos = [
-    {
-        id: 1,
-        nombre: "Jose",
-        carrera: "Programacion"
-    },
-    {
-        id: 2,
-        nombre: "Pablo",
-        carrera: "Sistemas"
-    },
-    {
-        id: 3,
-        nombre: "Franco",
-        carrera: "Programacion"
-    },
-    {
-        id: 4,
-        nombre: "Axel",
-        carrera: "Analista de Sistemas"
-    },
-    {
-        id: 5,
-        nombre: "Lautaro",
-        carrera: "Programacion"
-    }
-];
-
+const alumnos = require('../data/alumnos');
 // GET /alumnos
 function obtenerAlumnos(req, res) {
     res.json(alumnos);
@@ -51,6 +24,35 @@ function obtenerAlumnoPorId(req, res) {
 function crearAlumno(req, res) {
 
     const nuevoAlumno = req.body;
+    const { id, nombre, carrera } = nuevoAlumno;
+
+    // Verificar que los campos existan
+    if (id === undefined || nombre === undefined || carrera === undefined) {
+        return res.status(400).json({
+            mensaje: "Faltan datos del alumno"
+        });
+    }
+
+    // Verificar tipos
+    if (
+        typeof id !== "number" ||
+        typeof nombre !== "string" ||
+        typeof carrera !== "string"
+    ) {
+        return res.status(400).json({
+            mensaje: "Tipo de dato incorrecto"
+        });
+    }
+
+    // Verificar campos vacíos
+    if (
+        nombre.trim() === "" ||
+        carrera.trim() === ""
+    ) {
+        return res.status(400).json({
+            mensaje: "Los campos no pueden estar vacíos"
+        });
+    }
 
     alumnos.push(nuevoAlumno);
 
@@ -87,15 +89,15 @@ function eliminarAlumno(req, res) {
 
     const id = Number(req.params.id);
 
-    const alumnoExiste = alumnos.some(alumno => alumno.id === id);
+    const indice = alumnos.findIndex(alumno => alumno.id === id);
 
-    if (!alumnoExiste) {
+    if (indice === -1) {
         return res.status(404).json({
             mensaje: "Alumno no encontrado"
         });
     }
 
-    alumnos = alumnos.filter(alumno => alumno.id !== id);
+    alumnos.splice(indice, 1);
 
     res.json({
         mensaje: "Alumno eliminado correctamente"

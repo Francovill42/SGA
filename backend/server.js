@@ -4,9 +4,9 @@ const app = express();
 app.use(express.json());
 
 // Importar rutas
-const alumnosRoutes = require("./routes/alumnosrouter");
+const alumnosRouter = require("./routes/alumnosruotes");
 
-app.use("/alumnos", alumnosRoutes);
+app.use("/alumnos", alumnosRouter);
 
 // Iniciar servidor
 app.listen(3000, () => {
