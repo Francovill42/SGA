@@ -29,12 +29,11 @@ Actualmente:
 - CSS
 - Express
 - Node.js
+- MongoDB
 
 Próximamente:
 - React
-- Node.js
-- Express
-- MongoDB
+
 
 ## Estado del proyecto
 
@@ -72,6 +71,12 @@ fronted
 - status 404 para alumno no encontrado
 - status 201 para registrar nuevo alumno 
 - Manejo basico de errores en las operaciones del CRUD.
+- Instalacion de mongoose
+- Creacion de la conexion con MongoDB en config/Database.js
+- Creacion del Schema y modelo Alumno
+- Reemplazo del Array en memoria por una coleccion de MongoDb
+- Modificacion de GET /alumnos para consulta MongoDB mediante mongoose
+- Prueba de la API con datos almacenados en MongoDB.
 
 
 ## Almacenamiento
