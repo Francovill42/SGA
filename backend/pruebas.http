@@ -10,7 +10,7 @@ POST http://localhost:3000/alumnos
 Content-Type: application/json
 
 {
-    "legajo": 1007,
+    "legajo": 1010,
     "nombre": "Franco",
     "carrera": "Programacion",
     "correo": "franco@gmail.com"

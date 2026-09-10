@@ -16,6 +16,9 @@ const alumnoSchema = new mongoose.Schema({
     // Correo electrónico del alumno
     correo: String
 });
+{
+    versionKey: false  // Desactivamos la versión de los documentos
+}
 
 // Creamos el modelo Alumno usando el Schema
 // "Alumno" será el modelo que utilizaremos desde el controller

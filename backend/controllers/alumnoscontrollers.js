@@ -2,9 +2,6 @@
 // "Alumno" representa nuestra colección de alumnos en MongoDB.
 const Alumno = require('../models/Alumno');
 
-
-
-
 // =====================================================
 // GET /alumnos
 // Obtener todos los alumnos
@@ -94,7 +91,6 @@ async function obtenerAlumnoPorLegajo(req, res) {
         });
     }
 }
-
 
 // =====================================================
 // POST /alumnos
@@ -275,7 +271,7 @@ async function actualizarAlumno(req, res) {
         // Number() lo convierte a número.
         const legajo = Number(req.params.legajo);
 
-
+        
         // Buscamos el alumno cuyo legajo coincida
         // con el que recibimos.
         const alumno = await Alumno.findOne({
