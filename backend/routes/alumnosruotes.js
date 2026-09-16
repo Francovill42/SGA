@@ -1,63 +1,15 @@
+const express = require("express")
+const { obtenerAlumnos, obtenerAlumno, crearAlumno, actualizarAlumno, eliminarAlumno } = require("../controllers/alumnoscontrollers.js")
+const router = express.Router()
 
-// Importamos Express
-const express = require("express");
+router.get("/", obtenerAlumnos)
 
-// Creamos un Router
-const router = express.Router();
+router.get("/:id", obtenerAlumno)
 
+router.post("/", crearAlumno)
 
-// Importamos las funciones del controller
-const {
-    obtenerAlumnos,
-    obtenerAlumnoPorLegajo,
-    crearAlumno,
-    actualizarAlumno,
-    eliminarAlumno
-} = require("../controllers/alumnoscontrollers");
+router.put("/:id", actualizarAlumno)
 
+router.delete("/:id", eliminarAlumno)
 
-// =====================================================
-// GET /alumnos
-// Obtener todos los alumnos
-// =====================================================
-
-router.get("/", obtenerAlumnos);
-
-
-// =====================================================
-// GET /alumnos/:legajo
-// Obtener un alumno por su legajo
-// =====================================================
-
-router.get("/:legajo", obtenerAlumnoPorLegajo);
-
-
-// =====================================================
-// POST /alumnos
-// Crear un nuevo alumno
-// =====================================================
-
-router.post("/", crearAlumno);
-
-
-// =====================================================
-// PUT /alumnos/:legajo
-// Actualizar un alumno
-// =====================================================
-
-router.put("/:legajo", actualizarAlumno);
-
-
-// =====================================================
-// DELETE /alumnos/:legajo
-// Eliminar un alumno
-// =====================================================
-
-router.delete("/:legajo", eliminarAlumno);
-
-
-// =====================================================
-// EXPORTAR ROUTER
-// =====================================================
-
-module.exports = router;
+module.exports = router
