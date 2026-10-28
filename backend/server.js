@@ -15,6 +15,9 @@ app.use(express.static(path.join(__dirname, "..", "frontend")))
 const alumnosRoutes = require('./routes/alumnosruotes');
 app.use("/alumnos", alumnosRoutes)
 
+const docentesRoutes = require('./routes/docentesroutes');
+app.use("/docentes", docentesRoutes)
+
 conectarDB()
 console.log("Ejecutado con nodemon")
 
