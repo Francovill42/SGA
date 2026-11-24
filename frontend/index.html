@@ -1,102 +1,41 @@
 <!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-
-    <link rel="stylesheet" href="CSS/index.css">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-
-
-
-
-    <title>SGA - Sistema de Gestión Académica</title>
-</head>
-
-<body>
-
-    <header>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="css/estilos.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+        <title>SGA</title>
+    </head>
+    <body>
+       <header>
         <nav>
             <a href="index.html" class="activo">Inicio</a>
             <a href="alumnos.html">Alumnos</a>
             <a href="docentes.html">Docentes</a>
         </nav>
-    </header>
-
-    <main class="Inicio">
-
-        <div class="bienvenida">
-            <div class="icono-principal">
-                <i class="fa-solid fa-graduation-cap"></i>
-            </div>
-
-            <h1>Sistema de Gestión Académica</h1>
-
-            <p>
-                Bienvenido al Sistema de Gestión Académica
-            </p>
-
-            <span>
-                Seleccioná una opción para comenzar
-            </span>
-        </div>
-
-        <section class="modulo">
-
+       </header>
+       <main class="inicio">
+        <h1>Sistema de Gestión Académica</h1>
+        <p>Bienvenido al Sistema de Gestión Académica</p>
+        <section class="modulos">
             <a href="alumnos.html" class="tarjeta">
-                <div class="icono-tarjeta">
-                    <i class="fa-solid fa-users"></i>
-                </div>
-
-                <div class="contenido-tarjeta">
-                    <h2>Alumnos</h2>
-                    <p>Gestionar alumnos registrados en el sistema.</p>
-                </div>
-
-                <i class="fa-solid fa-arrow-right flecha"></i>
+                <i class="fa-solid fa-users"></i>
+                <h2>Alumnos</h2>
+                <p>Gestionar alumnos</p>
             </a>
-
-
             <a href="docentes.html" class="tarjeta">
-                <div class="icono-tarjeta">
-                    <i class="fa-solid fa-chalkboard-user"></i>
-                </div>
-
-                <div class="contenido-tarjeta">
-                    <h2>Docentes</h2>
-                    <p>Gestionar docentes registrados en el sistema.</p>
-                </div>
-
-                <i class="fa-solid fa-arrow-right flecha"></i>
+                <i class="fa-solid fa-chalkboard-user"></i>
+                <h2>Docentes</h2>
+                <p>Gestionar docentes</p>
             </a>
-
-
             <div class="tarjeta tarjeta-deshabilitada">
-                <div class="icono-tarjeta">
-                    <i class="fa-solid fa-book"></i>
-                </div>
-
-                <div class="contenido-tarjeta">
-                    <h2>Materias</h2>
-                    <p>Este módulo estará disponible próximamente.</p>
-                </div>
-
-                <span class="proximamente">Próximamente</span>
+                <i class="fa-solid fa-book"></i>
+                <h2>Materias</h2>
+                <p>Próximamente</p>
             </div>
-
         </section>
-
-    </main>
-
-    <footer>
-        <p>SGA &copy; 2026 - Sistema de Gestión Académica</p>
-    </footer>
-
-</body>
-
+       </main>
+    </body>
 </html>

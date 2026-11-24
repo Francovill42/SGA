@@ -1,27 +1,31 @@
-const express = require("express")
-const app = express()
-const path = require("path")
+require("dotenv").config() 
+
+const express = require("express") 
 const cors = require("cors")
-const conectarDB = require("./config/dtb")
-require("dotenv").config()
-const PORT = process.env.PORT
 
-app.use(cors())
-app.use(express.json())
+const conectarDB = require("./config/database")
+const alumnosRoutes = require("./routes/alumnos.routes") 
+const docentesRoutes = require("./routes/docentes.routes")
+const materiasRoutes = require("./routes/materias.routes")
+const authRoutes  = require("./routes/authRoutes")
 
-// Sirve el frontend (HTML, CSS, JS del cliente)
-app.use(express.static(path.join(__dirname, "..", "frontend")))
 
-const alumnosRoutes = require('./routes/alumnosruotes');
-app.use("/alumnos", alumnosRoutes)
+const app = express() 
 
-const docentesRoutes = require('./routes/docentesroutes');
+app.use(express.json()) 
+app.use(cors()) 
+app.use("/alumnos", alumnosRoutes) 
 app.use("/docentes", docentesRoutes)
+app.use("/materias", materiasRoutes)
+app.use("/auth", authRoutes)
 
-conectarDB()
+const PORT = process.env.PORT 
+
+conectarDB() 
+
 console.log("Ejecutado con nodemon")
 
-app.listen(PORT, () => {
+app.listen(PORT, () => { 
     console.log(`Servidor funcionando en http://localhost:${PORT}`)
 })
 

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Alert, Box, Button, Paper, TextField, Typography } from "@mui/material"
 const API_DOCENTES = "http://localhost:3000/docentes"
+import { useAuth } from "../context/useAuth";
 
-function FormularioD({ onDocenteCreado, docenteEditar, onCancelar, onAviso }){
+function FormularioD({ onDocenteCreado, docenteEditar, onCancelar }){
     const [formulario, setFormulario] = useState({
         dni: String(docenteEditar?.dni ?? ""),
         nombre: docenteEditar?.nombre ?? "",
@@ -11,6 +12,7 @@ function FormularioD({ onDocenteCreado, docenteEditar, onCancelar, onAviso }){
     })
     const [error, setError] = useState("")
     const [guardando, setGuardando] = useState(false)
+    const { token } = useAuth()
 
     function manejarCambio(e) {
         const { name, value} = e.target
@@ -24,48 +26,25 @@ function FormularioD({ onDocenteCreado, docenteEditar, onCancelar, onAviso }){
     async function guardar(e) {
         e.preventDefault()
         setError("")
-
-        const editando = Boolean(docenteEditar)
-        const datos = {
-            nombre: formulario.nombre.trim(),
-            especialidad: formulario.especialidad.trim(),
-            correo: formulario.correo.trim()
-        }
-
-        // Si está editando y no cambió nada, avisamos y no llamamos al servidor
-        if (editando) {
-            const sinCambios =
-                datos.nombre === String(docenteEditar.nombre ?? "").trim() &&
-                datos.especialidad === String(docenteEditar.especialidad ?? "").trim() &&
-                datos.correo === String(docenteEditar.correo ?? "").trim()
-
-            if (sinCambios) {
-                onAviso("No se editó nada: no hiciste ningún cambio en el docente.", "warning")
-                return
-            }
-        } else if (Number.isNaN(Number(formulario.dni))) {
-            setError("El DNI debe ser un número")
-            return
-        }
-
         setGuardando(true)
-
-        const url = editando
-                    ? `${API_DOCENTES}/${docenteEditar.dni}`
-                    : API_DOCENTES
-        const cuerpo = editando
-                    ? datos
-                    : { ...datos, dni: Number(formulario.dni) }
+        
+    const docente = {
+        ...formulario,
+        dni: Number(formulario.dni)
+    }
+    const editando = Boolean(docenteEditar)
+    const url = editando 
+                ? `${API_DOCENTES}/${docenteEditar.dni}`
+                : API_DOCENTES
         try {
             const respuesta = await fetch(url, {
                 method: editando ? "PUT" : "POST",
-                headers: {"Content-Type":"application/json"},
-                body: JSON.stringify(cuerpo)
+                headers: {"Content-Type":"application/json", Authorization: `Bearer ${token}`},
+                body: JSON.stringify(docente)
             })
 
             if (!respuesta.ok) {
-                const detalle = await respuesta.json().catch(() => ({}))
-                throw new Error(detalle.mensaje || `No se pudo guardar el docente. Estado HTTP: ${respuesta.status}`)
+                throw new Error(`No se pudo guardar el docente. Estado HTTP: ${respuesta.status}`)
             }
 
             setFormulario({
@@ -75,13 +54,9 @@ function FormularioD({ onDocenteCreado, docenteEditar, onCancelar, onAviso }){
                 correo: ""
             })
             onDocenteCreado()
-            onAviso(editando
-                ? "Docente editado correctamente"
-                : "Docente guardado correctamente")
         } catch (error) {
             console.error("Error al guardar:", error)
             setError(error.message || "No se pudo conectar con el servidor")
-            onAviso(error.message || "No se pudo conectar con el servidor", "error")
         } finally {
             setGuardando(false)
         }
@@ -114,17 +89,15 @@ function FormularioD({ onDocenteCreado, docenteEditar, onCancelar, onAviso }){
                     gap: 2
                 }}
             >
-                {!docenteEditar && (
-                    <TextField
-                        id="dni"
-                        name="dni"
-                        label="DNI"
-                        value={formulario.dni}
-                        onChange={manejarCambio}
-                        required
-                        fullWidth
-                    />
-                )}
+                <TextField
+                    id="dni"
+                    name="dni"
+                    label="DNI"
+                    value={formulario.dni}
+                    onChange={manejarCambio}
+                    required
+                    fullWidth
+                />
                 <TextField
                     id="nombre"
                     name="nombre"

@@ -6,8 +6,9 @@ import Paper from "@mui/material/Paper"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
 const API_ALUMNOS = "http://localhost:3000/alumnos"
+import { useAuth } from "../context/useAuth";
 
-function FormularioA({ onAlumnoCreado, alumnoEditar, onCancelar, onAviso }){
+function FormularioA({ onAlumnoCreado, alumnoEditar, onCancelar }){
     const [formulario, setFormulario] = useState({
         legajo: String(alumnoEditar?.legajo ?? ""),
         nombre: alumnoEditar?.nombre ?? "",
@@ -16,6 +17,7 @@ function FormularioA({ onAlumnoCreado, alumnoEditar, onCancelar, onAviso }){
     })
     const [error, setError] = useState("")
     const [guardando, setGuardando] = useState(false)
+    const { token } = useAuth()
 
     function manejarCambio(e) {
         const { name, value} = e.target
@@ -29,48 +31,25 @@ function FormularioA({ onAlumnoCreado, alumnoEditar, onCancelar, onAviso }){
     async function guardar(e) {
         e.preventDefault()
         setError("")
-
-        const editando = Boolean(alumnoEditar)
-        const datos = {
-            nombre: formulario.nombre.trim(),
-            carrera: formulario.carrera.trim(),
-            correo: formulario.correo.trim()
-        }
-
-        // Si está editando y no cambió nada, avisamos y no llamamos al servidor
-        if (editando) {
-            const sinCambios =
-                datos.nombre === String(alumnoEditar.nombre ?? "").trim() &&
-                datos.carrera === String(alumnoEditar.carrera ?? "").trim() &&
-                datos.correo === String(alumnoEditar.correo ?? "").trim()
-
-            if (sinCambios) {
-                onAviso("No se editó nada: no hiciste ningún cambio en el alumno.", "warning")
-                return
-            }
-        } else if (Number.isNaN(Number(formulario.legajo))) {
-            setError("El legajo debe ser un número")
-            return
-        }
-
         setGuardando(true)
-
-        const url = editando
-                    ? `${API_ALUMNOS}/${alumnoEditar.legajo}`
-                    : API_ALUMNOS
-        const cuerpo = editando
-                    ? datos
-                    : { ...datos, legajo: Number(formulario.legajo) }
+        
+    const alumno = {
+        ...formulario,
+        legajo: Number(formulario.legajo)
+    }
+    const editando = Boolean(alumnoEditar)
+    const url = editando 
+                ? `${API_ALUMNOS}/${alumnoEditar.legajo}`
+                : API_ALUMNOS
         try {
             const respuesta = await fetch(url, {
                 method: editando ? "PUT" : "POST",
-                headers: {"Content-Type":"application/json"},
-                body: JSON.stringify(cuerpo)
+                headers: {"Content-Type":"application/json", Authorization: `Bearer ${token}`},
+                body: JSON.stringify(alumno)
             })
 
             if (!respuesta.ok) {
-                const detalle = await respuesta.json().catch(() => ({}))
-                throw new Error(detalle.mensaje || `No se pudo guardar el alumno. Estado HTTP: ${respuesta.status}`)
+                throw new Error(`No se pudo guardar el alumno. Estado HTTP: ${respuesta.status}`)
             }
 
             setFormulario({
@@ -79,14 +58,10 @@ function FormularioA({ onAlumnoCreado, alumnoEditar, onCancelar, onAviso }){
                 carrera: "",
                 correo: ""
             })
-            onAlumnoCreado()
-            onAviso(editando
-                ? "Alumno editado correctamente"
-                : "Alumno guardado correctamente")
+            onAlumnoCreado(editando ? "Modificado" : "Creado") 
         } catch (error) {
             console.error("Error al guardar:", error)
             setError(error.message || "No se pudo conectar con el servidor")
-            onAviso(error.message || "No se pudo conectar con el servidor", "error")
         } finally {
             setGuardando(false)
         }
@@ -119,17 +94,15 @@ function FormularioA({ onAlumnoCreado, alumnoEditar, onCancelar, onAviso }){
                     gap: 2
                 }}
             >
-                {!alumnoEditar && (
-                    <TextField
-                        id="legajo"
-                        name="legajo"
-                        label="Legajo"
-                        value={formulario.legajo}
-                        onChange={manejarCambio}
-                        required
-                        fullWidth
-                    />
-                )}
+                <TextField
+                    id="legajo"
+                    name="legajo"
+                    label="Legajo"
+                    value={formulario.legajo}
+                    onChange={manejarCambio}
+                    required
+                    fullWidth
+                />
                 <TextField
                     id="nombre"
                     name="nombre"

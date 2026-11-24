@@ -1,32 +1,383 @@
 GET http://localhost:3000/alumnos
 
 ###
-
-GET http://localhost:3000/alumnos/1
+GET http://localhost:3000/alumnos/1002
 
 ###
-
 POST http://localhost:3000/alumnos
 Content-Type: application/json
 
 {
-    "legajo": 1010,
-    "nombre": "Franco",
-    "carrera": "Programacion",
-    "correo": "franco@gmail.com"
+    "legajo": 1023,
+    "nombre": "Ramón",
+    "carrera": "Sistemas",
+    "correo": "ramon@mail.com"
 }
-
 ###
-
-PUT http://localhost:3000/alumnos/1001
+PUT http://localhost:3000/alumnos/1002
 Content-Type: application/json
 
 {
-    "nombre": "Lucia Actualizada",
-    "carrera": "Ingenieria",
-    "correo": "lucia.nueva@gmail.com"
+    "nombre": "Juan Carlos",
+    "carrera": "Programación",
+    "correo": "juan@mail.com"
 }
 
 ###
+DELETE http://localhost:3000/alumnos/1021
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZThjYmUyZGFlOGEwMzFiMGJhNDJiZiIsInJvbCI6ImFkbWluIiwiaWF0IjoxNzk0NTE5NTgwLCJleHAiOjE3OTQ1MjMxODB9.NAL0l5InkKwOdIqqJkjKRXCjlmjQjBoBLMhBgYJ6XJY
 
-DELETE http://localhost:3000/alumnos/1001
+###
+POST http://localhost:3000/alumnos
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZThjYmUyZGFlOGEwMzFiMGJhNDJiZiIsInJvbCI6ImFkbWluIiwiaWF0IjoxNzk0NTE5NTgwLCJleHAiOjE3OTQ1MjMxODB9.NAL0l5InkKwOdIqqJkjKRXCjlmjQjBoBLMhBgYJ6XJY
+
+{
+    "legajo": 1066,
+    "nombre": "Rocío",
+    "carrera": "Programación",
+    "correo": "rocio@mail.com"
+}
+
+###
+GET http://localhost:3000/docentes
+Authorization: Bearer Mi_token
+
+###
+POST http://localhost:3000/docentes
+Content-Type: application/json
+Authorization: Bearer Mi_token
+
+{
+    "dni": 5222311,
+    "nombre": "Rocío",
+    "especialidad": "Programación",
+    "correo": "rocio@mail.com"
+}
+
+###
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "email": "admin@sga.com",
+    "password":"ClaveDePrueba123!"
+}
+
+###
+GET http://localhost:3000/alumnos
+Authorization: Bearer Mi_token
+###
+# ---------- MATERIAS ----------
+# Primero hacer POST /auth/login y pegar el token en lugar de Mi_token
+# Los números corresponden a las pruebas de la consigna (Parte B)
+
+###
+# 1. Consultar todas (colección vacía: debe responder [])
+GET http://localhost:3000/materias
+Authorization: Bearer Mi_token
+
+###
+# 2. Registrar varias materias y ver que aparezcan en el listado (1 de 3)
+POST http://localhost:3000/materias
+Content-Type: application/json
+Authorization: Bearer Mi_token
+
+{
+    "codigo": "PRG1",
+    "nombre": "Programación I",
+    "descripcion": "Introducción",
+    "cargaHoraria": 96,
+    "estado": "activa"
+}
+
+###
+# 2b. Registrar varias materias (2 de 3)
+POST http://localhost:3000/materias
+Content-Type: application/json
+Authorization: Bearer Mi_token
+
+{
+    "codigo": "PRG3",
+    "nombre": "Programación III",
+    "descripcion": "Estructuras de datos",
+    "cargaHoraria": 96,
+    "estado": "activa"
+}
+
+###
+# 2c. Registrar varias materias (3 de 3)
+POST http://localhost:3000/materias
+Content-Type: application/json
+Authorization: Bearer Mi_token
+
+{
+    "codigo": "BD1",
+    "nombre": "Base de Datos I",
+    "cargaHoraria": 64,
+    "estado": "activa"
+}
+
+###
+# 2d. Listado con las materias cargadas
+GET http://localhost:3000/materias
+Authorization: Bearer Mi_token
+
+###
+# 3. Consultar una materia por su código
+GET http://localhost:3000/materias/PRG1
+Authorization: Bearer Mi_token
+
+###
+# 4. Código inexistente (debe responder 404)
+GET http://localhost:3000/materias/NOEXISTE
+Authorization: Bearer Mi_token
+
+###
+# 5. Registrar una materia con todos los datos válidos (debe responder 201)
+POST http://localhost:3000/materias
+Content-Type: application/json
+Authorization: Bearer Mi_token
+
+{
+    "codigo": "PRG4",
+    "nombre": "Programación IV",
+    "descripcion": "React, Express y MongoDB",
+    "cargaHoraria": 96,
+    "estado": "activa"
+}
+
+###
+# 6. Sin código (debe responder 400)
+POST http://localhost:3000/materias
+Content-Type: application/json
+Authorization: Bearer Mi_token
+
+{
+    "nombre": "Programación IV",
+    "descripcion": "React, Express y MongoDB",
+    "cargaHoraria": 96,
+    "estado": "activa"
+}
+
+###
+# 7. Sin nombre (debe responder 400)
+POST http://localhost:3000/materias
+Content-Type: application/json
+Authorization: Bearer Mi_token
+
+{
+    "codigo": "PRG9",
+    "descripcion": "React, Express y MongoDB",
+    "cargaHoraria": 96,
+    "estado": "activa"
+}
+
+###
+# 8. Sin carga horaria (debe responder 400)
+POST http://localhost:3000/materias
+Content-Type: application/json
+Authorization: Bearer Mi_token
+
+{
+    "codigo": "PRG9",
+    "nombre": "Programación IV",
+    "descripcion": "React, Express y MongoDB",
+    "estado": "activa"
+}
+
+###
+# 9a. Carga horaria igual a cero (debe responder 400)
+POST http://localhost:3000/materias
+Content-Type: application/json
+Authorization: Bearer Mi_token
+
+{
+    "codigo": "PRG9",
+    "nombre": "Programación IV",
+    "descripcion": "React, Express y MongoDB",
+    "cargaHoraria": 0,
+    "estado": "activa"
+}
+
+###
+# 9b. Carga horaria negativa (debe responder 400)
+POST http://localhost:3000/materias
+Content-Type: application/json
+Authorization: Bearer Mi_token
+
+{
+    "codigo": "PRG9",
+    "nombre": "Programación IV",
+    "descripcion": "React, Express y MongoDB",
+    "cargaHoraria": -5,
+    "estado": "activa"
+}
+
+###
+# 9c. Carga horaria decimal (debe responder 400)
+POST http://localhost:3000/materias
+Content-Type: application/json
+Authorization: Bearer Mi_token
+
+{
+    "codigo": "PRG9",
+    "nombre": "Programación IV",
+    "descripcion": "React, Express y MongoDB",
+    "cargaHoraria": 2.5,
+    "estado": "activa"
+}
+
+###
+# 10. Código duplicado (debe responder 400)
+POST http://localhost:3000/materias
+Content-Type: application/json
+Authorization: Bearer Mi_token
+
+{
+    "codigo": "PRG1",
+    "nombre": "Otra materia",
+    "descripcion": "React, Express y MongoDB",
+    "cargaHoraria": 96,
+    "estado": "activa"
+}
+
+###
+# 11. Estado no permitido (debe responder 400)
+POST http://localhost:3000/materias
+Content-Type: application/json
+Authorization: Bearer Mi_token
+
+{
+    "codigo": "PRG9",
+    "nombre": "Programación IV",
+    "descripcion": "React, Express y MongoDB",
+    "cargaHoraria": 96,
+    "estado": "pausada"
+}
+
+###
+# 12. Modificar nombre y descripción
+PUT http://localhost:3000/materias/PRG4
+Content-Type: application/json
+Authorization: Bearer Mi_token
+
+{
+    "codigo": "PRG4",
+    "nombre": "Programación IV - Backend",
+    "descripcion": "Descripción modificada",
+    "cargaHoraria": 96,
+    "estado": "activa"
+}
+
+###
+# 13. Modificar carga horaria y estado
+PUT http://localhost:3000/materias/PRG4
+Content-Type: application/json
+Authorization: Bearer Mi_token
+
+{
+    "codigo": "PRG4",
+    "nombre": "Programación IV - Backend",
+    "descripcion": "Descripción modificada",
+    "cargaHoraria": 80,
+    "estado": "inactiva"
+}
+
+###
+# 14. Modificar una materia inexistente (debe responder 404)
+PUT http://localhost:3000/materias/NOEXISTE
+Content-Type: application/json
+Authorization: Bearer Mi_token
+
+{
+    "codigo": "NOEXISTE",
+    "nombre": "Programación IV",
+    "descripcion": "React, Express y MongoDB",
+    "cargaHoraria": 96,
+    "estado": "activa"
+}
+
+###
+# 15. Cambiar el código por el de otra materia (debe responder 400)
+PUT http://localhost:3000/materias/PRG4
+Content-Type: application/json
+Authorization: Bearer Mi_token
+
+{
+    "codigo": "PRG1",
+    "nombre": "Programación IV - Backend",
+    "descripcion": "Descripción modificada",
+    "cargaHoraria": 80,
+    "estado": "inactiva"
+}
+
+###
+# 15b. Conservar su propio código no es duplicado (debe responder 200)
+PUT http://localhost:3000/materias/PRG4
+Content-Type: application/json
+Authorization: Bearer Mi_token
+
+{
+    "codigo": "PRG4",
+    "nombre": "Programación IV",
+    "descripcion": "React, Express y MongoDB",
+    "cargaHoraria": 96,
+    "estado": "activa"
+}
+
+###
+# 15c. Cambiar el código por uno libre (debe responder 200)
+PUT http://localhost:3000/materias/PRG4
+Content-Type: application/json
+Authorization: Bearer Mi_token
+
+{
+    "codigo": "PRG4B",
+    "nombre": "Programación IV",
+    "descripcion": "React, Express y MongoDB",
+    "cargaHoraria": 96,
+    "estado": "activa"
+}
+
+###
+# 16. Eliminar una materia existente (debe responder 200)
+DELETE http://localhost:3000/materias/PRG4B
+Authorization: Bearer Mi_token
+
+###
+# 16b. Consultarla nuevamente (debe responder 404)
+GET http://localhost:3000/materias/PRG4B
+Authorization: Bearer Mi_token
+
+###
+# 17. Eliminar una materia inexistente (debe responder 404)
+DELETE http://localhost:3000/materias/NOEXISTE
+Authorization: Bearer Mi_token
+
+###
+# 18. Listado final: debe reflejar los cambios realizados
+GET http://localhost:3000/materias
+Authorization: Bearer Mi_token
+
+###
+# 19. Usuario con rol "usuario" puede consultar (debe responder 200)
+GET http://localhost:3000/materias
+Authorization: Bearer TOKEN_DE_USUARIO
+
+###
+# 20. Usuario con rol "usuario" no puede registrar (debe responder 403)
+POST http://localhost:3000/materias
+Content-Type: application/json
+Authorization: Bearer TOKEN_DE_USUARIO
+
+{
+    "codigo": "PRG7",
+    "nombre": "Programación VII",
+    "cargaHoraria": 64,
+    "estado": "activa"
+}
+
+###
+# 21. Sin token (debe responder 401)
+GET http://localhost:3000/materias

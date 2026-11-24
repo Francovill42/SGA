@@ -1,41 +1,35 @@
 import { useEffect, useState } from "react"
-import Alert from "@mui/material/Alert"
-import Box from "@mui/material/Box"
-import Button from "@mui/material/Button"
-import Chip from "@mui/material/Chip"
-import IconButton from "@mui/material/IconButton"
-import InputAdornment from "@mui/material/InputAdornment"
-import TextField from "@mui/material/TextField"
-import SearchIcon from "@mui/icons-material/Search"
-import ClearIcon from "@mui/icons-material/Clear"
-import Paper from "@mui/material/Paper"
-import Stack from "@mui/material/Stack"
-import Typography from "@mui/material/Typography"
+import { Alert, Box, Button, Chip, Paper, Stack, Typography } from "@mui/material"
+import { useAuth } from "../context/useAuth"
+
 const API_DOCENTES = "http://localhost:3000/docentes"
 
-export function ListaDocentes({ actualizar, onDocenteCreado, onEditarDocente, onAviso }) {
+export function ListaDocentes({ actualizar, onDocenteCreado, onEditarDocente }) {
     const [docentes, setDocentes] = useState([])
     const [cargando, setCargando] = useState(true)
     const [error, setError] = useState("")
-    const [busqueda, setBusqueda] = useState("")
+    const { token } = useAuth()
 
     async function eliminarDocente(dni){
-        const confirmar = window.confirm("¿Seguro que querés eliminar este docente?")
+        const confirmar = window.confirm("¿Seguro que querés eliminar este alumno?")
         if (!confirmar) {
             return
         }
         try {
             const respuesta = await fetch(`${API_DOCENTES}/${dni}`, 
-                { method: "DELETE" }
+                { method: "DELETE",
+                  headers: {
+                    Authorization: `Bearer ${token}`
+                  }
+                 }
             )
             if (!respuesta.ok) {
                 throw new Error(`No se pudo eliminar. Estado HTTP: ${respuesta.status}`)
             }
             onDocenteCreado()
-            onAviso("Docente eliminado correctamente")
         } catch (error) {
             console.error("Error al eliminar: ", error)
-            onAviso(error.message || "No se pudo eliminar el docente", "error")
+            alert(error.message || "No se pudo eliminar docente")
         }
     }
     useEffect(() => {
@@ -44,7 +38,9 @@ export function ListaDocentes({ actualizar, onDocenteCreado, onEditarDocente, on
             setError("")
 
             try {
-            const respuesta = await fetch(API_DOCENTES)
+            const respuesta = await fetch(API_DOCENTES, {
+                headers: {Authorization: `Bearer ${token}`}
+            })
 
             if (!respuesta.ok){
                 throw new Error("No se pudo obtener la lista", respuesta.status)
@@ -61,11 +57,6 @@ export function ListaDocentes({ actualizar, onDocenteCreado, onEditarDocente, on
     }
         cargarDocentes()
     }, [actualizar])
-
-    const termino = busqueda.trim()
-    const filtrados = termino === ""
-        ? docentes
-        : docentes.filter(docente => String(docente.dni).includes(termino))
 
     if (cargando) {
         return (
@@ -92,41 +83,10 @@ export function ListaDocentes({ actualizar, onDocenteCreado, onEditarDocente, on
             <Typography component="h2" variant="h5" sx={{ mb: 2.5, fontWeight: 700 }}>
                 Docentes
             </Typography>
-            <TextField
-                value={busqueda}
-                onChange={e => setBusqueda(e.target.value.replace(/\D/g, ""))}
-                placeholder="Buscar por DNI"
-                size="small"
-                fullWidth
-                sx={{ mb: 2.5 }}
-                slotProps={{
-                    htmlInput: { inputMode: "numeric", "aria-label": "Buscar docente por DNI" },
-                    input: {
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <SearchIcon />
-                            </InputAdornment>
-                        ),
-                        endAdornment: busqueda && (
-                            <InputAdornment position="end">
-                                <IconButton
-                                    size="small"
-                                    aria-label="Limpiar búsqueda"
-                                    onClick={() => setBusqueda("")}
-                                >
-                                    <ClearIcon fontSize="small" />
-                                </IconButton>
-                            </InputAdornment>
-                        )
-                    }
-                }}
-            />
-            {filtrados.length === 0
+            {docentes.length === 0
                 ? (
                     <Typography color="text.secondary">
-                        {docentes.length === 0
-                            ? "No hay docentes registrados."
-                            : `No se encontraron docentes con DNI ${termino}.`}
+                        No hay docentes registrados.
                     </Typography>
                 )
                 : (
@@ -135,7 +95,7 @@ export function ListaDocentes({ actualizar, onDocenteCreado, onEditarDocente, on
                         spacing={1.5}
                         sx={{ listStyle: "none", p: 0, m: 0 }}
                     >
-                        {filtrados.map(docente => (
+                        {docentes.map(docente => (
                             <Paper
                                 component="li"
                                 key={docente.dni}
@@ -157,7 +117,7 @@ export function ListaDocentes({ actualizar, onDocenteCreado, onEditarDocente, on
                                     spacing={1.5}
                                     sx={{ alignItems: "center", flexWrap: "wrap" }}
                                 >
-                                    <Chip label={`DNI ${docente.dni}`} color="primary" variant="outlined" size="small" />
+                                    <Chip label={`Legajo ${docente.dni}`} color="primary" variant="outlined" size="small" />
                                     <Box>
                                         <Typography fontWeight={600}>{docente.nombre}</Typography>
                                         <Typography variant="body2" color="text.secondary">

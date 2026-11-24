@@ -1,19 +1,19 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose") 
 
-const docenteSchema = new mongoose.Schema({
+const docenteSchema = new mongoose.Schema({ 
     dni: {
         type: Number,
-        unique: true
+        unique: true 
     },
     nombre: String,
     especialidad: String,
     correo: String
 },
-{
-    versionKey: false
+{ 
+    versionKey: false 
 }
 )
 
-const Docente = mongoose.model("Docente", docenteSchema)
+const Docente = mongoose.model("Docente", docenteSchema) 
 
-module.exports = Docente
+module.exports = Docente 

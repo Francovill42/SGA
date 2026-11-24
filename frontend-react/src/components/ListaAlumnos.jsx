@@ -3,21 +3,17 @@ import Alert from "@mui/material/Alert"
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
 import Chip from "@mui/material/Chip"
-import IconButton from "@mui/material/IconButton"
-import InputAdornment from "@mui/material/InputAdornment"
-import TextField from "@mui/material/TextField"
-import SearchIcon from "@mui/icons-material/Search"
-import ClearIcon from "@mui/icons-material/Clear"
 import Paper from "@mui/material/Paper"
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 const API_ALUMNOS = "http://localhost:3000/alumnos"
+import { useAuth } from "../context/useAuth"
 
-export function ListaAlumnos({ actualizar, onAlumnoCreado, onEditarAlumno, onAviso }) {
+export function ListaAlumnos({ actualizar, onAlumnoCreado, onEditarAlumno }) {
     const [alumnos, setAlumnos] = useState([])
     const [cargando, setCargando] = useState(true)
     const [error, setError] = useState("")
-    const [busqueda, setBusqueda] = useState("")
+    const { token } = useAuth()
 
     async function eliminarAlumno(legajo){
         const confirmar = window.confirm("¿Seguro que querés eliminar este alumno?")
@@ -26,16 +22,19 @@ export function ListaAlumnos({ actualizar, onAlumnoCreado, onEditarAlumno, onAvi
         }
         try {
             const respuesta = await fetch(`${API_ALUMNOS}/${legajo}`, 
-                { method: "DELETE" }
+                { method: "DELETE",
+                  headers: {
+                    Authorization: `Bearer ${token}`
+                  }
+                 }
             )
             if (!respuesta.ok) {
                 throw new Error(`No se pudo eliminar. Estado HTTP: ${respuesta.status}`)
             }
             onAlumnoCreado()
-            onAviso("Alumno eliminado correctamente")
         } catch (error) {
             console.error("Error al eliminar: ", error)
-            onAviso(error.message || "No se pudo eliminar el alumno", "error")
+            alert(error.message || "No se pudo elimnar alumno")
         }
     }
     useEffect(() => {
@@ -44,7 +43,9 @@ export function ListaAlumnos({ actualizar, onAlumnoCreado, onEditarAlumno, onAvi
             setError("")
 
             try {
-            const respuesta = await fetch(API_ALUMNOS)
+            const respuesta = await fetch(API_ALUMNOS, {
+                headers: {Authorization: `Bearer ${token}`}
+            })
 
             if (!respuesta.ok){
                 throw new Error("No se pudo obtener la lista", respuesta.status)
@@ -61,11 +62,6 @@ export function ListaAlumnos({ actualizar, onAlumnoCreado, onEditarAlumno, onAvi
     }
         cargarAlumnos()
     }, [actualizar])
-
-    const termino = busqueda.trim()
-    const filtrados = termino === ""
-        ? alumnos
-        : alumnos.filter(alumno => String(alumno.legajo).includes(termino))
 
     if (cargando) {
         return (
@@ -92,41 +88,10 @@ export function ListaAlumnos({ actualizar, onAlumnoCreado, onEditarAlumno, onAvi
             <Typography component="h2" variant="h5" sx={{ mb: 2.5, fontWeight: 700 }}>
                 Alumnos
             </Typography>
-            <TextField
-                value={busqueda}
-                onChange={e => setBusqueda(e.target.value.replace(/\D/g, ""))}
-                placeholder="Buscar por legajo"
-                size="small"
-                fullWidth
-                sx={{ mb: 2.5 }}
-                slotProps={{
-                    htmlInput: { inputMode: "numeric", "aria-label": "Buscar alumno por legajo" },
-                    input: {
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <SearchIcon />
-                            </InputAdornment>
-                        ),
-                        endAdornment: busqueda && (
-                            <InputAdornment position="end">
-                                <IconButton
-                                    size="small"
-                                    aria-label="Limpiar búsqueda"
-                                    onClick={() => setBusqueda("")}
-                                >
-                                    <ClearIcon fontSize="small" />
-                                </IconButton>
-                            </InputAdornment>
-                        )
-                    }
-                }}
-            />
-            {filtrados.length === 0
+            {alumnos.length === 0
                 ? (
                     <Typography color="text.secondary">
-                        {alumnos.length === 0
-                            ? "No hay alumnos registrados."
-                            : `No se encontraron alumnos con legajo ${termino}.`}
+                        No hay alumnos registrados.
                     </Typography>
                 )
                 : (
@@ -135,7 +100,7 @@ export function ListaAlumnos({ actualizar, onAlumnoCreado, onEditarAlumno, onAvi
                         spacing={1.5}
                         sx={{ listStyle: "none", p: 0, m: 0 }}
                     >
-                        {filtrados.map(alumno => (
+                        {alumnos.map(alumno => (
                             <Paper
                                 component="li"
                                 key={alumno.legajo}
