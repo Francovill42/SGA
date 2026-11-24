@@ -1,38 +1,41 @@
-require("dotenv").config() 
 
-const express = require("express") 
-const cors = require("cors")
+require("dotenv").config();
 
-const conectarDB = require("./config/database")
-const alumnosRoutes = require("./routes/alumnos.routes") 
-const docentesRoutes = require("./routes/docentes.routes")
-const materiasRoutes = require("./routes/materias.routes")
-const authRoutes  = require("./routes/authRoutes")
+const dns = require("dns");
+dns.setServers(["8.8.8.8", "1.1.1.1"]);
 
+const express = require("express");
+const cors = require("cors");
 
-const app = express() 
+const conectarDB = require("./config/database");
+const alumnosRoutes = require("./routes/alumnos.routes");
+const docentesRoutes = require("./routes/docentes.routes");
+const materiasRoutes = require("./routes/materias.routes");
+const authRoutes = require("./routes/authRoutes");
 
-app.use(express.json()) 
-app.use(cors()) 
-app.use("/alumnos", alumnosRoutes) 
-app.use("/docentes", docentesRoutes)
-app.use("/materias", materiasRoutes)
-app.use("/auth", authRoutes)
+const app = express();
 
-const PORT = process.env.PORT 
+app.use(express.json());
+app.use(cors());
 
-conectarDB() 
+app.use("/alumnos", alumnosRoutes);
+app.use("/docentes", docentesRoutes);
+app.use("/materias", materiasRoutes);
+app.use("/auth", authRoutes);
 
-console.log("Ejecutado con nodemon")
+const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => { 
-    console.log(`Servidor funcionando en http://localhost:${PORT}`)
-})
+conectarDB();
 
+console.log("Ejecutado con nodemon");
 
-// Creo un middleware
+app.listen(PORT, () => {
+    console.log(`Servidor funcionando en http://localhost:${PORT}`);
+});
+
+// Middleware para registrar las solicitudes
 // app.use((req, res, next) => {
-//     console.log(req.method)
-//     console.log(req.url)
-//     next()
-// })
+//     console.log(req.method);
+//     console.log(req.url);
+//     next();
+// });
