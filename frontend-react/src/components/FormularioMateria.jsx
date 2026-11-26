@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Alert, Box, Button, MenuItem, Paper, TextField, Typography } from "@mui/material"
 import { useAuth } from "../context/useAuth";
-const API_MATERIAS = "http://localhost:3000/materias"
+import API_URL from "../../config/api"
+
+const API_MATERIAS = `${API_URL}/materias`
 
 function FormularioMateria({ onMateriaCreada, materiaEditar, onCancelar }){
     const [formulario, setFormulario] = useState({

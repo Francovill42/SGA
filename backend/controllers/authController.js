@@ -55,4 +55,27 @@ const login = async (req, res) => {
     }
 }
 
-module.exports = { login }
+const perfil = async (req, res) => { // Devuelve los datos del usuario logueado a partir del token
+    try {
+        const usuario = await Usuario.findById(req.usuario.id)
+
+        if (!usuario) {
+            return res.status(401).json({
+                mensaje: "El usuario ya no existe"
+            })
+        }
+        return res.status(200).json({
+            id: usuario._id,
+            nombre: usuario.nombre,
+            email: usuario.email,
+            rol: usuario.rol
+        })
+    } catch (error) {
+        console.error("Error al obtener el perfil: ", error)
+        return res.status(500).json({
+            mensaje: "Error interno del servidor"
+        })
+    }
+}
+
+module.exports = { login, perfil }

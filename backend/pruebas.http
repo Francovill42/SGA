@@ -381,3 +381,50 @@ Authorization: Bearer TOKEN_DE_USUARIO
 ###
 # 21. Sin token (debe responder 401)
 GET http://localhost:3000/materias
+
+
+
+
+
+
+
+
+
+
+###
+POST http://localhost:3000/cursos
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZiMDdjNTI0YTFjNjg1MzAwMTQxMTkyOSIsInJvbCI6ImFkbWluIiwiaWF0IjoxNzk1NzE1NzA3LCJleHAiOjE3OTU3MTkzMDd9.FokbFXNznklzIfDoDP2i_HBUSutrJbl20DpqI_Iz25M
+
+{
+    "codigo": "CUR003",
+    "nombre": "Programación Web",
+    "descripcion": "Desarrollo de aplicaciones web",
+    "duracion": 64
+}
+
+
+###
+GET http://localhost:3000/cursos
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZiMDdjNTI0YTFjNjg1MzAwMTQxMTkyOSIsInJvbCI6ImFkbWluIiwiaWF0IjoxNzk1NzE1NzA3LCJleHAiOjE3OTU3MTkzMDd9.FokbFXNznklzIfDoDP2i_HBUSutrJbl20DpqI_Iz25M
+###
+GET http://localhost:3000/cursos/CUR002
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZiMDdjNTI0YTFjNjg1MzAwMTQxMTkyOSIsInJvbCI6ImFkbWluIiwiaWF0IjoxNzk1NzE1NzA3LCJleHAiOjE3OTU3MTkzMDd9.FokbFXNznklzIfDoDP2i_HBUSutrJbl20DpqI_Iz25M
+###
+PUT http://localhost:3000/cursos/CUR002
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZiMDdjNTI0YTFjNjg1MzAwMTQxMTkyOSIsInJvbCI6ImFkbWluIiwiaWF0IjoxNzk1NzE1NzA3LCJleHAiOjE3OTU3MTkzMDd9.FokbFXNznklzIfDoDP2i_HBUSutrJbl20DpqI_Iz25M
+
+{
+    "codigo": "CUR002",
+    "nombre": "Programación",
+    "descripcion": "Desarrollo de aplicaciones web",
+    "duracion": 64
+}
+
+###
+DELETE http://localhost:3000/cursos/CUR002
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZiMDdjNTI0YTFjNjg1MzAwMTQxMTkyOSIsInJvbCI6ImFkbWluIiwiaWF0IjoxNzk1NzE1NzA3LCJleHAiOjE3OTU3MTkzMDd9.FokbFXNznklzIfDoDP2i_HBUSutrJbl20DpqI_Iz25M

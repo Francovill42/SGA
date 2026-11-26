@@ -1,8 +1,10 @@
 import { ListaAlumnos } from "../components/ListaAlumnos"
 import { useState } from "react"
 import FormularioA from "../components/FormularioA"
+import { useAuth } from "../context/useAuth"
 
 export default function Alumnos() {
+const { esAdmin } = useAuth()
 const [actualizar, setActualizar] = useState(0)
 const [alumnoEditar, setAlumnoEditar] = useState(null)
 
@@ -17,11 +19,13 @@ function seleccionarAlumno(alumno) {
 
 return (
    <>
-   <FormularioA key={alumnoEditar?.legajo ?? "nuevo"}
-   onAlumnoCreado={alumnoCreado}
-   alumnoEditar={alumnoEditar}
-   onCancelar={() => setAlumnoEditar(null)}
-   />
+   {esAdmin && (
+     <FormularioA key={alumnoEditar?.legajo ?? "nuevo"}
+     onAlumnoCreado={alumnoCreado}
+     alumnoEditar={alumnoEditar}
+     onCancelar={() => setAlumnoEditar(null)}
+     />
+   )}
    <ListaAlumnos 
    actualizar={actualizar} 
    onAlumnoCreado={alumnoCreado}

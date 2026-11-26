@@ -5,8 +5,10 @@ import Button from "@mui/material/Button"
 import Paper from "@mui/material/Paper"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
-const API_ALUMNOS = "http://localhost:3000/alumnos"
 import { useAuth } from "../context/useAuth";
+import API_URL from "../../config/api"
+
+const API_ALUMNOS = `${API_URL}/alumnos`
 
 function FormularioA({ onAlumnoCreado, alumnoEditar, onCancelar }){
     const [formulario, setFormulario] = useState({

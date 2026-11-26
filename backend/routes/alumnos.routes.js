@@ -1,6 +1,6 @@
 const express = require("express") 
 // const alumnosController = require(
-const { verificarToken } = require("../middlewares/authMiddleware") // Importar el middleware de verificación de token
+const { verificarToken, permitirRoles } = require("../middlewares/authMiddleware") // Importar los middlewares de token y de roles
 
 const { 
     obtenerAlumnos, 
@@ -14,10 +14,10 @@ router.get("/", verificarToken, obtenerAlumnos) // Ruta para obtener todos los a
 
 router.get("/:id", verificarToken, obtenerAlumno) 
 
-router.post("/", verificarToken, crearAlumno) 
+router.post("/", verificarToken, permitirRoles("admin"), crearAlumno) // Registrar, modificar y eliminar: solo admin
 
-router.put("/:id", verificarToken, actualizarAlumno) 
+router.put("/:id", verificarToken, permitirRoles("admin"), actualizarAlumno) 
 
-router.delete("/:id",verificarToken, eliminarAlumno) 
+router.delete("/:id", verificarToken, permitirRoles("admin"), eliminarAlumno) 
 
 module.exports = router 

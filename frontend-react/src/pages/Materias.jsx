@@ -2,8 +2,10 @@ import { ListaMaterias } from "../components/ListaMaterias"
 import { useState } from "react"
 import { Alert } from "@mui/material"
 import FormularioMateria from "../components/FormularioMateria"
+import { useAuth } from "../context/useAuth"
 
 export default function Materias() {
+  const { esAdmin } = useAuth()
   const [actualizar, setActualizar] = useState(0)
   const [materiaEditar, setMateriaEditar] = useState(null)
   const [mensaje, setMensaje] = useState("")
@@ -26,11 +28,13 @@ export default function Materias() {
           {mensaje}
         </Alert>
       )}
-      <FormularioMateria key={materiaEditar?.codigo ?? "nueva"}
-        onMateriaCreada={materiaCreada}
-        materiaEditar={materiaEditar}
-        onCancelar={() => setMateriaEditar(null)}
-      />
+      {esAdmin && (
+        <FormularioMateria key={materiaEditar?.codigo ?? "nueva"}
+          onMateriaCreada={materiaCreada}
+          materiaEditar={materiaEditar}
+          onCancelar={() => setMateriaEditar(null)}
+        />
+      )}
       <ListaMaterias
         actualizar={actualizar}
         onMateriaCreada={materiaCreada}

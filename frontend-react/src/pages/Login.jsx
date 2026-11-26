@@ -3,10 +3,11 @@ import {Alert, Box, Button, TextField, Typography } from "@mui/material"
 import { useTheme } from "@mui/material/styles" 
 import { useAuth } from "../context/useAuth"
 import { useNavigate } from "react-router-dom"
+import API_URL from "../../config/api"
 
 export default function Login() {
     const navigate = useNavigate()
-    const { setToken } = useAuth()
+    const { iniciarSesion } = useAuth()
 
     const theme = useTheme()
     const [usuario, setUsuario] = useState(null)
@@ -26,7 +27,7 @@ export default function Login() {
         setMensaje("")
 
         try {
-            const respuesta = await fetch("http://localhost:3000/auth/login",
+            const respuesta = await fetch(`${API_URL}/auth/login`,
                 {
                     method: "POST",
                     headers: {"Content-Type":"application/json"},
@@ -37,8 +38,12 @@ export default function Login() {
             if (!respuesta.ok) {
                 throw new Error(datos.mensaje || "No se pudo iniciar sesión")
             }
-            localStorage.setItem("token", datos.token)
-            setToken(datos.token)
+            iniciarSesion(datos.token, {
+                id: datos.id,
+                nombre: datos.nombre,
+                email: datos.email,
+                rol: datos.rol
+            })
 
             setUsuario(datos)
             setMensaje(datos.mensaje)

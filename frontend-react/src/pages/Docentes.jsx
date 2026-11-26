@@ -1,8 +1,10 @@
 import { ListaDocentes } from "../components/ListaDocentes"
 import { useState } from "react"
 import FormularioD from "../components/FormularioD"
+import { useAuth } from "../context/useAuth"
 
 export default function Docentes() {
+const { esAdmin } = useAuth()
 const [actualizar, setActualizar] = useState(0)
 const [docenteEditar, setDocenteEditar] = useState(null)
 
@@ -17,11 +19,13 @@ function seleccionarDocente(alumno) {
 
 return (
    <>
-   <FormularioD key={docenteEditar?.dni ?? "nuevo"}
-   onDocenteCreado={docenteCreado}
-   docenteEditar={docenteEditar}
-   onCancelar={() => setDocenteEditar(null)}
-   />
+   {esAdmin && (
+     <FormularioD key={docenteEditar?.dni ?? "nuevo"}
+     onDocenteCreado={docenteCreado}
+     docenteEditar={docenteEditar}
+     onCancelar={() => setDocenteEditar(null)}
+     />
+   )}
    <ListaDocentes 
    actualizar={actualizar} 
    onDocenteCreado={docenteCreado}

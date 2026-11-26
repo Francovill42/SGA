@@ -1,4 +1,4 @@
-import { AppBar, Box, Button, Container, IconButton, Link, Stack, Toolbar, Typography } from "@mui/material"
+import { AppBar, Box, Button, Chip, Container, IconButton, Link, Stack, Toolbar, Typography } from "@mui/material"
 import HelpOutlineRoundedIcon from "@mui/icons-material/HelpOutlineRounded"
 import { Link as RouterLink } from "react-router-dom"
 import SelectorTema from "./SelectorTema"
@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom"
 import { useAuth } from "../context/useAuth"
 
 export default function Header() {
-    const { cerrarSesion } = useAuth()
+    const { cerrarSesion, usuario } = useAuth()
     const navigate = useNavigate()
 
     const logout = () => {
@@ -125,6 +125,23 @@ export default function Header() {
                         >
                             <HelpOutlineRoundedIcon />
                         </IconButton>
+                        <Link
+                            component={RouterLink}
+                            to="/cursos"
+                            color="text.primary"
+                            underline="none"
+                            sx={{ px: { xs: 1, sm: 1.5 }, py: 1, borderRadius: 2, "&:hover": { bgcolor: "action.hover" } }}
+                        >
+                            Cursos
+                        </Link>
+                        {usuario && (
+                            <Chip
+                                label={`${usuario.nombre} · ${usuario.rol}`}
+                                color={usuario.rol === "admin" ? "primary" : "default"}
+                                variant="outlined"
+                                size="small"
+                            />
+                        )}
                         <Button
                             type="button"
                             color="inherit"

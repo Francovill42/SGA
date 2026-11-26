@@ -6,14 +6,16 @@ import Chip from "@mui/material/Chip"
 import Paper from "@mui/material/Paper"
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
-const API_ALUMNOS = "http://localhost:3000/alumnos"
 import { useAuth } from "../context/useAuth"
+import API_URL from "../../config/api"
+
+const API_ALUMNOS = `${API_URL}/alumnos`
 
 export function ListaAlumnos({ actualizar, onAlumnoCreado, onEditarAlumno }) {
     const [alumnos, setAlumnos] = useState([])
     const [cargando, setCargando] = useState(true)
     const [error, setError] = useState("")
-    const { token } = useAuth()
+    const { token, esAdmin, cerrarSesion } = useAuth()
 
     async function eliminarAlumno(legajo){
         const confirmar = window.confirm("¿Seguro que querés eliminar este alumno?")
@@ -47,6 +49,10 @@ export function ListaAlumnos({ actualizar, onAlumnoCreado, onEditarAlumno }) {
                 headers: {Authorization: `Bearer ${token}`}
             })
 
+            if (respuesta.status === 401) { // Token vencido o inválido: volver al login
+                cerrarSesion()
+                return
+            }
             if (!respuesta.ok){
                 throw new Error("No se pudo obtener la lista", respuesta.status)
             }
@@ -61,7 +67,7 @@ export function ListaAlumnos({ actualizar, onAlumnoCreado, onEditarAlumno }) {
         }
     }
         cargarAlumnos()
-    }, [actualizar])
+    }, [actualizar, token, cerrarSesion])
 
     if (cargando) {
         return (
@@ -130,25 +136,27 @@ export function ListaAlumnos({ actualizar, onAlumnoCreado, onEditarAlumno }) {
                                         </Typography>
                                     </Box>
                                 </Stack>
-                                <Stack direction="row" spacing={1} sx={{ justifyContent: "flex-end" }}>
-                                    <Button
-                                        type="button"
-                                        onClick={() => onEditarAlumno(alumno)}
-                                        variant="outlined"
-                                        size="small"
-                                    >
-                                        Editar
-                                    </Button>
-                                    <Button
-                                        type="button"
-                                        onClick={() => eliminarAlumno(alumno.legajo)}
-                                        variant="outlined"
-                                        color="error"
-                                        size="small"
-                                    >
-                                        Eliminar
-                                    </Button>
-                                </Stack>
+                                {esAdmin && (
+                                    <Stack direction="row" spacing={1} sx={{ justifyContent: "flex-end" }}>
+                                        <Button
+                                            type="button"
+                                            onClick={() => onEditarAlumno(alumno)}
+                                            variant="outlined"
+                                            size="small"
+                                        >
+                                            Editar
+                                        </Button>
+                                        <Button
+                                            type="button"
+                                            onClick={() => eliminarAlumno(alumno.legajo)}
+                                            variant="outlined"
+                                            color="error"
+                                            size="small"
+                                        >
+                                            Eliminar
+                                        </Button>
+                                    </Stack>
+                                )}
                             </Paper>
                         ))}
                     </Stack>
